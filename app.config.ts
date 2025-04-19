@@ -8,8 +8,8 @@ const OWNER = "mohamedo-desu";
 const APP_NAME = "Todo Now";
 const BUNDLE_IDENTIFIER = `com.mohamedodesu.${PROJECT_SLUG}`;
 const PACKAGE_NAME = `com.mohamedodesu.${PROJECT_SLUG}`;
-const ICON = "./assets/icons/iOS-Dev.png";
-const ADAPTIVE_ICON = "./assets/icons/Android-Dev.png";
+const ICON = "./assets/icons/icon.png";
+const ADAPTIVE_ICON = "./assets/icons/adaptive-icon.png";
 const SCHEME = PROJECT_SLUG;
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -59,12 +59,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-splash-screen",
         {
-          image: "./assets/icons/Android-Dev.png",
-          imageWidth: 260,
+          image: "./assets/icons/splash-icon.png",
+          imageWidth: 200,
           resizeMode: "contain",
           backgroundColor: "#ffffff",
           dark: {
-            image: "./assets/icons/Android-Dev.png",
+            image: "./assets/icons/splash-icon.png",
             backgroundColor: "#000000",
           },
         },
@@ -95,8 +95,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         {
           androidIcons: {
             help_icon: {
-              foregroundImage: "",
-              backgroundColor: "#069140",
+              foregroundImage: "./assets/icons/info.png",
+              backgroundColor: "#F9A825",
             },
           },
         },
@@ -104,8 +104,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-notifications",
         {
-          icon: "./assets/icons/Android-Dev.png",
-          color: "",
+          icon: "./assets/icons/splash-icon.png",
+          color: "#FFECCD",
           defaultChannel: "default",
           sounds: [],
           enableBackgroundRemoteNotifications: true,
@@ -132,6 +132,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       "expo-secure-store",
     ],
     experiments: {
+      reactCompiler: true,
       typedRoutes: true,
       reactCanary: true,
       remoteBuildCache: {
@@ -161,8 +162,8 @@ export const getDynamicAppConfig = (
       name: `${APP_NAME} Preview`,
       bundleIdentifier: `${BUNDLE_IDENTIFIER}.preview`,
       packageName: `${PACKAGE_NAME}.preview`,
-      icon: "./assets/icons/iOS-Prev.png",
-      adaptiveIcon: "./assets/icons/Android-Dev.png",
+      icon: "./assets/icons/icon.png",
+      adaptiveIcon: "./assets/icons/adaptive-icon.png",
       scheme: `${SCHEME}-prev`,
     };
   }
@@ -171,8 +172,8 @@ export const getDynamicAppConfig = (
     name: `${APP_NAME} Development`,
     bundleIdentifier: `${BUNDLE_IDENTIFIER}.dev`,
     packageName: `${PACKAGE_NAME}.dev`,
-    icon: "./assets/icons/iOS-dev.png",
-    adaptiveIcon: "./assets/icons/Android-Dev.png",
+    icon: "./assets/icons/icon.png",
+    adaptiveIcon: "./assets/icons/adaptive-icon.png",
     scheme: `${SCHEME}-dev`,
   };
 };
