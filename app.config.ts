@@ -13,10 +13,10 @@ const ADAPTIVE_ICON = "./assets/icons/adaptive-icon.png";
 const SCHEME = PROJECT_SLUG;
 
 export default ({ config }: ConfigContext): ExpoConfig => {
-  console.log("⚙️ Building app for environment:", process.env.NODE_ENV);
+  console.log("⚙️ Building app for environment:", process.env.APP_ENV);
   const { name, bundleIdentifier, icon, adaptiveIcon, packageName, scheme } =
     getDynamicAppConfig(
-      (process.env.NODE_ENV as "development" | "preview" | "production") ||
+      (process.env.APP_ENV as "development" | "preview" | "production") ||
         "development"
     );
 
@@ -90,17 +90,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           ],
         },
       ],
-      [
-        "expo-quick-actions",
-        {
-          androidIcons: {
-            help_icon: {
-              foregroundImage: "./assets/icons/info.png",
-              backgroundColor: "#F9A825",
-            },
-          },
-        },
-      ],
+      
       [
         "expo-notifications",
         {
@@ -111,15 +101,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           enableBackgroundRemoteNotifications: true,
         },
       ],
-      [
-        "expo-build-properties",
-        {
-          android: {
-            enableProguardInReleaseBuilds: true,
-            enableShrinkResourcesInReleaseBuilds: true,
-          },
-        },
-      ],
+      
       [
         "react-native-edge-to-edge",
         {
