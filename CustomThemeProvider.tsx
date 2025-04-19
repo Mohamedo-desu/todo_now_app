@@ -1,4 +1,3 @@
-import { Colors } from '@/constants/Colors';
 import { useSettingsStore } from '@/store/settingsStore';
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { PropsWithChildren, useEffect, useMemo } from 'react';
@@ -24,11 +23,7 @@ const CustomThemeProvider = ({ children }: PropsWithChildren) => {
   // Only set theme and background when a non-system theme is active
   useEffect(() => {
     if (!useSystemTheme) {
-      const isDarkTheme = selectedTheme === 'dark';
-      const navBarColor = isDarkTheme ? Colors.black : Colors.white;
-
       UnistylesRuntime.setTheme(selectedTheme);
-      UnistylesRuntime.setRootViewBackgroundColor(navBarColor);
     }
   }, [selectedTheme, useSystemTheme]);
 

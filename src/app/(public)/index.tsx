@@ -1,12 +1,15 @@
 import { Fonts } from '@/constants/Fonts';
+import useSettingsStore from '@/store/settingsStore';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 const Public = () => {
+  const { theme, setTheme } = useSettingsStore();
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Public</Text>
+      <Button title="Change Theme" onPress={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
     </View>
   );
 };
