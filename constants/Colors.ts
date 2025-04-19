@@ -1,26 +1,33 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
-export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+// Color themes
+const ColorThemes = {
+  FOREST: {
+    primary: "#4CAF50",
+    textPrimary: "#2e5a2e",
+    textSecondary: "#688f68",
+    textDark: "#2a2c2a",
+    placeholderText: "#b9b9b9",
+    background: "#ffffff",
+    cardBackground: "#f1f8f2",
+    inputBackground: "#f4faf5",
+    border: "#c8e6c9",
+    white: "#ffffff",
+    black: "#000000",
+    error: "#FF3D00",
+    warning: "#FFA500",
+    success: "#0acf45",
+    invited: "#BA68C8",
+    lightGray: {
+      500: "#9E9E9E",
+      400: "#BDBDBD",
+      300: "#E0E0E0",
+      200: "#EEEEEE",
+      100: "#F5F5F5",
+      50: "#fafafa",
+    },
   },
 };
+
+// Default export (set the default to FOREST or change as needed)
+const Colors = ColorThemes.FOREST;
+
+export default Colors;

@@ -1,0 +1,178 @@
+import { ConfigContext, ExpoConfig } from "expo/config";
+
+const EAS_PROJECT_ID = "60d3e5f1-8f30-49b6-b980-58f083f696a4";
+const PROJECT_SLUG = "todonow";
+const OWNER = "mohamedo-desu";
+
+// App production config
+const APP_NAME = "Todo Now";
+const BUNDLE_IDENTIFIER = `com.mohamedodesu.${PROJECT_SLUG}`;
+const PACKAGE_NAME = `com.mohamedodesu.${PROJECT_SLUG}`;
+const ICON = "./assets/icons/iOS-Dev.png";
+const ADAPTIVE_ICON = "./assets/icons/Android-Dev.png";
+const SCHEME = PROJECT_SLUG;
+
+export default ({ config }: ConfigContext): ExpoConfig => {
+  console.log("⚙️ Building app for environment:", process.env.NODE_ENV);
+  const { name, bundleIdentifier, icon, adaptiveIcon, packageName, scheme } =
+    getDynamicAppConfig(
+      (process.env.NODE_ENV as "development" | "preview" | "production") ||
+        "development"
+    );
+
+  return {
+    ...config,
+    name: name,
+    version: "1.0.0",
+    slug: PROJECT_SLUG,
+    orientation: "portrait",
+    userInterfaceStyle: "automatic",
+    newArchEnabled: true,
+    icon: icon,
+    scheme: scheme,
+    ios: {
+      supportsTablet: true,
+      bundleIdentifier: bundleIdentifier,
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: adaptiveIcon,
+        backgroundColor: "#ffffff",
+      },
+      package: packageName,
+      softwareKeyboardLayoutMode: "pan",
+      edgeToEdgeEnabled: true,
+    },
+    updates: {
+      url: `https://u.expo.dev/${EAS_PROJECT_ID}`,
+    },
+    runtimeVersion: {
+      policy: "appVersion",
+    },
+    extra: {
+      eas: {
+        projectId: EAS_PROJECT_ID,
+      },
+    },
+    plugins: [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          image: "./assets/icons/Android-Dev.png",
+          imageWidth: 260,
+          resizeMode: "contain",
+          backgroundColor: "#ffffff",
+          dark: {
+            image: "./assets/icons/Android-Dev.png",
+            backgroundColor: "#000000",
+          },
+        },
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          organization: "mohamedo-apps-desu",
+          project: PROJECT_SLUG,
+          url: "https://sentry.io",
+        },
+      ],
+      [
+        "expo-font",
+        {
+          fonts: [
+            "./assets/fonts/Urbanist-Black.ttf",
+            "./assets/fonts/Urbanist-Bold.ttf",
+            "./assets/fonts/Urbanist-Medium.ttf",
+            "./assets/fonts/Urbanist-Regular.ttf",
+            "./assets/fonts/Urbanist-SemiBold.ttf",
+            "./assets/fonts/Urbanist-Thin.ttf",
+          ],
+        },
+      ],
+      [
+        "expo-quick-actions",
+        {
+          androidIcons: {
+            help_icon: {
+              foregroundImage: "",
+              backgroundColor: "#069140",
+            },
+          },
+        },
+      ],
+      [
+        "expo-notifications",
+        {
+          icon: "./assets/icons/Android-Dev.png",
+          color: "",
+          defaultChannel: "default",
+          sounds: [],
+          enableBackgroundRemoteNotifications: true,
+        },
+      ],
+      [
+        "expo-build-properties",
+        {
+          android: {
+            enableProguardInReleaseBuilds: true,
+            enableShrinkResourcesInReleaseBuilds: true,
+          },
+        },
+      ],
+      [
+        "react-native-edge-to-edge",
+        {
+          android: {
+            parentTheme: "Light",
+            enforceNavigationBarContrast: false,
+          },
+        },
+      ],
+      "expo-secure-store",
+    ],
+    experiments: {
+      typedRoutes: true,
+      reactCanary: true,
+      remoteBuildCache: {
+        provider: "eas",
+      },
+    },
+    owner: OWNER,
+  };
+};
+
+export const getDynamicAppConfig = (
+  environment: "development" | "preview" | "production"
+) => {
+  if (environment === "production") {
+    return {
+      name: APP_NAME,
+      bundleIdentifier: BUNDLE_IDENTIFIER,
+      packageName: PACKAGE_NAME,
+      icon: ICON,
+      adaptiveIcon: ADAPTIVE_ICON,
+      scheme: SCHEME,
+    };
+  }
+
+  if (environment === "preview") {
+    return {
+      name: `${APP_NAME} Preview`,
+      bundleIdentifier: `${BUNDLE_IDENTIFIER}.preview`,
+      packageName: `${PACKAGE_NAME}.preview`,
+      icon: "./assets/icons/iOS-Prev.png",
+      adaptiveIcon: "./assets/icons/Android-Dev.png",
+      scheme: `${SCHEME}-prev`,
+    };
+  }
+
+  return {
+    name: `${APP_NAME} Development`,
+    bundleIdentifier: `${BUNDLE_IDENTIFIER}.dev`,
+    packageName: `${PACKAGE_NAME}.dev`,
+    icon: "./assets/icons/iOS-dev.png",
+    adaptiveIcon: "./assets/icons/Android-Dev.png",
+    scheme: `${SCHEME}-dev`,
+  };
+};
