@@ -1,10 +1,10 @@
-import { useSettingsStore } from '@/store/settingsStore';
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { PropsWithChildren, useEffect, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import { SystemBars } from 'react-native-edge-to-edge';
 import { UnistylesRuntime } from 'react-native-unistyles';
-import { customDarkTheme, customLightTheme } from './unistyles';
+import { customDarkTheme, customLightTheme } from '../../../unistyles';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const CustomThemeProvider = ({ children }: PropsWithChildren) => {
   const theme = useSettingsStore(state => state.theme);

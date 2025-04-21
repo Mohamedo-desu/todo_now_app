@@ -1,31 +1,54 @@
-import { Fonts } from '@/constants/Fonts';
-import useSettingsStore from '@/store/settingsStore';
+import { styles } from '@/styles/GetStartedScreen.styles';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { Button, Text, View } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
-const Public = () => {
-  const { theme, setTheme } = useSettingsStore();
+const GetStartedScreen = () => {
+  const router = useRouter();
+
+  const handleNavigateToLogin = () => {
+    router.navigate('/(public)/login');
+  };
+  const handleNavigateToSignup = () => {
+    router.navigate('/(public)/signup');
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Public</Text>
-      <Button title="Change Theme" onPress={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
+      <Text style={styles.text}>Get started</Text>
+      <View style={styles.infoContainer}>
+        <Text style={styles.textInfo}>Create tasks</Text>
+        <Text style={styles.textInfo}>•</Text>
+        <Text style={styles.textInfo}>Set reminders</Text>
+        <Text style={styles.textInfo}>•</Text>
+        <Text style={styles.textInfo}>Track progress</Text>
+      </View>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require('@/assets/images/au-bg.png')}
+          resizeMode="contain"
+          style={styles.image}
+        />
+      </View>
+      <View style={styles.height} />
+      <View>
+        <TouchableOpacity
+          style={styles.btn(true)}
+          activeOpacity={0.8}
+          onPress={handleNavigateToLogin}
+        >
+          <Text style={styles.btnText(true)}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btn(false)}
+          activeOpacity={0.8}
+          onPress={handleNavigateToSignup}
+        >
+          <Text style={styles.btnText(false)}>Signup</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-export default Public;
-
-const styles = StyleSheet.create(theme => ({
-  container: {
-    backgroundColor: theme.Colors.background,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    color: theme.Colors.typography,
-    fontSize: 20,
-    fontFamily: Fonts.Bold,
-  },
-}));
+export default GetStartedScreen;

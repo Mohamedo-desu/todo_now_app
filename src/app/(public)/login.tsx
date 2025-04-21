@@ -1,0 +1,102 @@
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import AuthHeader from '@/components/ui/AuthHeader';
+import { styles } from '@/styles/LoginScreen.styles';
+import { schema } from '@/validations/LoginScreen.validation';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Link } from 'expo-router';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+const LoginScreen = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: 'onChange',
+    reValidateMode: 'onBlur',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    shouldFocusError: true,
+  });
+
+  const onSubmit = async data => {
+    console.log('Logging in with:', data);
+    try {
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <AuthHeader title="Login to your account" />
+        <View style={styles.formContainer}>
+          <Input
+            label="Email"
+            control={control}
+            errors={errors.email}
+            name={'email'}
+            placeholder={'johndoe@gmail.com'}
+          />
+          <Input
+            label="Password"
+            control={control}
+            errors={errors.password}
+            name={'password'}
+            placeholder={'••••••••••••'}
+          />
+          <Text style={styles.forgotLabel}>forgot password?</Text>
+        </View>
+        <View style={styles.socialOptionsContainer}>
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            isSubmitting={isSubmitting}
+            isValid={isValid}
+            label={'Login'}
+          />
+          <View style={styles.socialOptions}>
+            <Text style={styles.orText}>OR LOGIN WITH</Text>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => undefined} style={styles.gButton}>
+              <Image
+                source={require('@/assets/images/google.png')}
+                resizeMode="contain"
+                style={styles.gImage}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Don't have an account?</Text>
+            <Link href={'/(public)/signup'} style={styles.footerText2}>
+              Sign up
+            </Link>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+};
+
+export default LoginScreen;

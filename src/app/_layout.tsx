@@ -1,5 +1,3 @@
-import ClerkAndConvexProvider from '@/components/hocs/ClerkAndConvexProvider';
-import InitialLayout from '@/components/hocs/InitialLayout';
 import * as Sentry from '@sentry/react-native';
 import { isRunningInExpoGo } from 'expo';
 import * as Notifications from 'expo-notifications';
@@ -9,8 +7,10 @@ import * as Updates from 'expo-updates';
 import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import CustomThemeProvider from '../../CustomThemeProvider';
 import sentryConfig from '../../sentry.config';
+import ClerkAndConvexProvider from '@/components/hocs/ClerkAndConvexProvider';
+import CustomThemeProvider from '@/components/hocs/CustomThemeProvider';
+import InitialLayout from '@/components/hocs/InitialLayout';
 
 LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys.']);
 

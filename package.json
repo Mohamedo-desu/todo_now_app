@@ -18,6 +18,7 @@
   "dependencies": {
     "@clerk/clerk-expo": "^2.9.14",
     "@expo/vector-icons": "^14.1.0",
+    "@hookform/resolvers": "^5.0.1",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
@@ -54,6 +55,7 @@
     "react-native-screens": "~4.10.0",
     "react-native-unistyles": "^3.0.0-rc.2",
     "svix": "^1.64.1",
+    "yup": "^1.6.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
