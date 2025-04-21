@@ -17,7 +17,7 @@ babel.config.*
 tsconfig.json
 tsconfig.eslint.json
 expo-env.d.ts
-convex
+
 
 # Environment files
 .env*
