@@ -1,7 +1,7 @@
-import { styles } from '@/styles/GetStartedScreen.styles';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { styles } from '@/styles/GetStartedScreen.styles';
 
 const GetStartedScreen = () => {
   const router = useRouter();

@@ -3,6 +3,7 @@ import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
 import { styles } from '@/styles/LoginScreen.styles';
 import { schema } from '@/validations/LoginScreen.validation';
+import { useSignIn } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'expo-router';
 import React from 'react';
@@ -18,6 +19,8 @@ import {
 } from 'react-native';
 
 const LoginScreen = () => {
+  const { isLoaded, signIn, setActive } = useSignIn();
+
   const {
     control,
     handleSubmit,
@@ -33,11 +36,23 @@ const LoginScreen = () => {
     shouldFocusError: true,
   });
 
-  const onSubmit = async data => {
-    console.log('Logging in with:', data);
+  const onSubmit = async (data: any) => {
     try {
-    } catch (err) {
-      console.error(err);
+      if (!isLoaded) return;
+      const { email, password } = data;
+
+      const signInAttempt = await signIn.create({
+        identifier: email,
+        password,
+      });
+
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId });
+      } else {
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (error) {
+      console.log('Login error', error);
     }
   };
 

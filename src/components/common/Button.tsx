@@ -1,7 +1,8 @@
+import { Colors } from '@/constants/Colors';
 import { styles } from '@/styles/Button.styles';
 import { ButtonProps } from '@/types/Button.types';
 import React, { FC } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
 const Button: FC<ButtonProps> = ({ isSubmitting, isValid, onPress, label }) => {
   return (
@@ -11,7 +12,11 @@ const Button: FC<ButtonProps> = ({ isSubmitting, isValid, onPress, label }) => {
       onPress={onPress}
       disabled={!isValid || isSubmitting}
     >
-      <Text style={styles.btnText(isValid && !isSubmitting)}>{label}</Text>
+      {isSubmitting ? (
+        <ActivityIndicator size="small" color={Colors.white} />
+      ) : (
+        <Text style={styles.btnText(isValid && !isSubmitting)}>{label}</Text>
+      )}
     </TouchableOpacity>
   );
 };

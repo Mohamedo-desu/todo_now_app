@@ -19,6 +19,7 @@ export const styles = StyleSheet.create((theme, rt) => ({
   },
   inputContainer: {
     gap: 5,
+    width: '100%',
   },
   errorLabel: {
     fontSize: 12,

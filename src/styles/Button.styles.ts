@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
   btn: canLogin => ({
+    width: '100%',
     backgroundColor: canLogin ? theme.Colors.primary : theme.Colors.gray[200],
     justifyContent: 'center',
     alignItems: 'center',

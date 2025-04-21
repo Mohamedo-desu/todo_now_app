@@ -1,10 +1,10 @@
-import { Colors } from '@/constants/Colors';
-import { Fonts } from '@/constants/Fonts';
 import { useAuth } from '@clerk/clerk-expo';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
+import { Colors } from '@/constants/Colors';
+import { Fonts } from '@/constants/Fonts';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();

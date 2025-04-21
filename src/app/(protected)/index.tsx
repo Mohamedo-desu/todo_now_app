@@ -1,10 +1,12 @@
+import { useAuth } from '@clerk/clerk-expo';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 
 const Home = () => {
+  const { signOut } = useAuth();
   return (
     <View>
-      <Text>Home</Text>
+      <Button title="Logout" onPress={() => signOut()} color="red" />
     </View>
   );
 };

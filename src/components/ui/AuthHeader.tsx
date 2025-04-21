@@ -1,9 +1,9 @@
-import { styles } from '@/styles/AuthHeader.styles';
-import { AuthHeaderProps, IconProps } from '@/types/AuthHeader.types';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { FC } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { styles } from '@/styles/AuthHeader.styles';
+import { AuthHeaderProps, IconProps } from '@/types/AuthHeader.types';
 
 const Icon: FC<IconProps> = ({ onPress }) => (
   <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.iconBtn} hitSlop={10}>

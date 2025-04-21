@@ -3,8 +3,9 @@ import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
 import { styles } from '@/styles/LoginScreen.styles';
 import { schema } from '@/validations/SignUpScreen.validation';
+import { useSignUp } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -18,6 +19,8 @@ import {
 } from 'react-native';
 
 export default function SignUpScreen() {
+  const { isLoaded, signUp } = useSignUp();
+
   const {
     control,
     handleSubmit,
@@ -30,8 +33,25 @@ export default function SignUpScreen() {
     shouldFocusError: true,
   });
 
-  const onSubmit = async data => {
-    console.log('Signing up with:', data);
+  const onSubmit = async (data: any) => {
+    try {
+      if (!isLoaded) return;
+      const { username, email, password } = data;
+
+      await signUp.create({
+        emailAddress: email,
+        password,
+        unsafeMetadata: {
+          username,
+        },
+      });
+      await signUp.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      });
+      router.push('/(public)/verificationModal');
+    } catch (error) {
+      console.log('signup error', error);
+    }
   };
 
   return (
