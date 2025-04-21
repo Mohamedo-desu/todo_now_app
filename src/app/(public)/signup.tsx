@@ -1,6 +1,7 @@
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
+import GoogleButton from '@/components/ui/GoogleButton';
 import { styles } from '@/styles/LoginScreen.styles';
 import { schema } from '@/validations/SignUpScreen.validation';
 import { useSignUp } from '@clerk/clerk-expo';
@@ -8,15 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 
 export default function SignUpScreen() {
   const { isLoaded, signUp } = useSignUp();
@@ -98,13 +91,7 @@ export default function SignUpScreen() {
         />
         <View style={styles.socialOptions}>
           <Text style={styles.orText}>OR SIGN UP WITH</Text>
-          <TouchableOpacity style={styles.gButton} activeOpacity={0.8} onPress={() => {}}>
-            <Image
-              source={require('@/assets/images/google.png')}
-              resizeMode="contain"
-              style={styles.gImage}
-            />
-          </TouchableOpacity>
+          <GoogleButton />
         </View>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already have an account?</Text>

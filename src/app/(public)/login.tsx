@@ -1,6 +1,7 @@
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
+import GoogleButton from '@/components/ui/GoogleButton';
 import { styles } from '@/styles/LoginScreen.styles';
 import { schema } from '@/validations/LoginScreen.validation';
 import { useSignIn } from '@clerk/clerk-expo';
@@ -8,15 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 
 const LoginScreen = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -94,13 +87,7 @@ const LoginScreen = () => {
           />
           <View style={styles.socialOptions}>
             <Text style={styles.orText}>OR LOGIN WITH</Text>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => undefined} style={styles.gButton}>
-              <Image
-                source={require('@/assets/images/google.png')}
-                resizeMode="contain"
-                style={styles.gImage}
-              />
-            </TouchableOpacity>
+            <GoogleButton />
           </View>
           <View style={styles.footer}>
             <Text style={styles.footerText}>Don't have an account?</Text>

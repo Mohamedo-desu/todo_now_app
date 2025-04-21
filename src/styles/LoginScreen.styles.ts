@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native-unistyles';
 import { Fonts } from '@/constants/Fonts';
+import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create((theme, rt) => ({
   container: {
@@ -31,17 +31,6 @@ export const styles = StyleSheet.create((theme, rt) => ({
     flex: 1,
     flexGrow: 1,
     justifyContent: 'center',
-  },
-  gImage: {
-    width: 40,
-    height: 40,
-  },
-  gButton: {
-    borderWidth: 1,
-    backgroundColor: theme.Colors.gray[100],
-    borderColor: theme.Colors.gray[200],
-    borderRadius: 5,
-    padding: 10,
   },
   footer: {
     flexDirection: 'row',
