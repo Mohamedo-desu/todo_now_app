@@ -18,7 +18,7 @@ const CustomThemeProvider = ({ children }: PropsWithChildren) => {
 
     UnistylesRuntime.setAdaptiveThemes(useSystemTheme);
     return appliedTheme;
-  }, [theme, colorScheme]);
+  }, [theme, colorScheme, useSystemTheme]);
 
   // Only set theme and background when a non-system theme is active
   useEffect(() => {

@@ -21,7 +21,7 @@ const InitialLayout = () => {
     } else if (isSignedIn && inPublicLayout) {
       router.replace('/(protected)');
     }
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn, router, segments]);
 
   if (!isLoaded)
     return (

@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native-unistyles';
 import { Fonts } from '@/constants/Fonts';
+import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create((theme, rt) => ({
   container: {
     flex: 1,
     backgroundColor: theme.Colors.background,
-    paddingVertical: rt.insets.top + 10,
+    paddingTop: rt.insets.top + 10,
+    paddingBottom: rt.insets.bottom + 10,
     paddingHorizontal: 15,
   },
   text: { fontFamily: Fonts.Bold, fontSize: 28, color: theme.Colors.typography },
@@ -31,4 +32,12 @@ export const styles = StyleSheet.create((theme, rt) => ({
   imageContainer: { height: '50%', marginTop: 20 },
   image: { width: '100%', height: '100%' },
   infoContainer: { flexDirection: 'row', marginTop: 10, gap: 10 },
+  icon: {
+    color: theme.Colors.typography,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 }));

@@ -1,9 +1,9 @@
+import { styles } from '@/styles/components/AuthHeader.styles';
+import { AuthHeaderProps, IconProps } from '@/types/AuthHeader.types';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { FC } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { styles } from '@/styles/AuthHeader.styles';
-import { AuthHeaderProps, IconProps } from '@/types/AuthHeader.types';
 
 const Icon: FC<IconProps> = ({ onPress }) => (
   <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.iconBtn} hitSlop={10}>
@@ -11,7 +11,7 @@ const Icon: FC<IconProps> = ({ onPress }) => (
   </TouchableOpacity>
 );
 
-const AuthHeader: FC<AuthHeaderProps> = ({ title, description, showBackButton }) => {
+const AuthHeader: FC<AuthHeaderProps> = ({ title, description, showBackButton = true }) => {
   const router = useRouter();
 
   return (

@@ -6,7 +6,7 @@
     "publish:android": "eas build --platform android --profile preview",
     "update:app": "eas update --branch preview && npx sentry-expo-upload-sourcemaps dist",
     "upgrade": "bun install expo@latest && bunx expo install --fix",
-    "android": "bunx expo run:android",
+    "android": "bunx expo run:android --device",
     "release:android": "bunx expo run:android --device --variant Release",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" && prettier --check \"src/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix && prettier --write \"src/**/*.{js,jsx,ts,tsx,json}\"",

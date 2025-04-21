@@ -6,10 +6,10 @@ import { styles } from '@/styles/LoginScreen.styles';
 import { schema } from '@/validations/LoginScreen.validation';
 import { useSignIn } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 
 const LoginScreen = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -46,6 +46,7 @@ const LoginScreen = () => {
       }
     } catch (error) {
       console.log('Login error', error);
+      Alert.alert('Login failed', 'Please check your credentials and try again.');
     }
   };
 
@@ -76,7 +77,9 @@ const LoginScreen = () => {
             name={'password'}
             placeholder={'••••••••••••'}
           />
-          <Text style={styles.forgotLabel}>forgot password?</Text>
+          <Link href={'/(public)/forgotPassword'} style={styles.forgotLabel}>
+            forgot password?
+          </Link>
         </View>
         <View style={styles.socialOptionsContainer}>
           <Button
@@ -90,10 +93,11 @@ const LoginScreen = () => {
             <GoogleButton />
           </View>
           <View style={styles.footer}>
-            <Text style={styles.footerText}>Don't have an account?</Text>
-            <Link href={'/(public)/signup'} style={styles.footerText2}>
+            <Text style={styles.footerText}>Don&apos;t have an account?</Text>
+
+            <Text style={styles.footerText2} onPress={() => router.navigate('/(public)/signup')}>
               Sign up
-            </Link>
+            </Text>
           </View>
         </View>
       </ScrollView>

@@ -1,8 +1,8 @@
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/Button.styles';
-import { ButtonProps } from '@/types/Button.types';
 import React, { FC } from 'react';
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/components/Button.styles';
+import { ButtonProps } from '@/types/Button.types';
 
 const Button: FC<ButtonProps> = ({ isSubmitting, isValid, onPress, label }) => {
   return (

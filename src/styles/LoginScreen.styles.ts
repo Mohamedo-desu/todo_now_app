@@ -8,7 +8,8 @@ export const styles = StyleSheet.create((theme, rt) => ({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingVertical: rt.insets.top + 10,
+    paddingTop: rt.insets.top + 10,
+    paddingBottom: rt.insets.bottom + 10,
     paddingHorizontal: 15,
   },
   formContainer: {

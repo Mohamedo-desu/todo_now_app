@@ -1,9 +1,9 @@
-import { styles } from '@/styles/GoogleButton';
+import { styles } from '@/styles/components/GoogleButton.styles';
 import { useSSO } from '@clerk/clerk-expo';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Alert, Image, TouchableOpacity } from 'react-native';
 
 const GoogleButton = () => {
   const { startSSOFlow } = useSSO();
@@ -25,6 +25,7 @@ const GoogleButton = () => {
       }
     } catch (error) {
       console.log('OAuth error', error);
+      Alert.alert('Error', 'An error occurred during the sign-in process.');
     }
   };
 

@@ -7,6 +7,7 @@ import * as Updates from 'expo-updates';
 import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native-unistyles';
 import sentryConfig from '../../sentry.config';
 import ClerkAndConvexProvider from '@/components/hocs/ClerkAndConvexProvider';
 import CustomThemeProvider from '@/components/hocs/CustomThemeProvider';
@@ -68,7 +69,7 @@ function RootLayout() {
 
   return (
     <ClerkAndConvexProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={styles.container}>
         <CustomThemeProvider>
           <InitialLayout />
         </CustomThemeProvider>
@@ -78,3 +79,7 @@ function RootLayout() {
 }
 
 export default Sentry.wrap(RootLayout);
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+});

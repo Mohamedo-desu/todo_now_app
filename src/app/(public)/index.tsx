@@ -3,6 +3,24 @@ import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from '@/styles/GetStartedScreen.styles';
 
+// const ThemeIcon = ({ theme, colorScheme, onPress }) => (
+//   <TouchableOpacity onPress={onPress}>
+//     <MaterialCommunityIcons
+//       name={
+//         theme === 'dark'
+//           ? 'lightbulb-off-outline'
+//           : theme === 'light'
+//             ? 'lightbulb-on-outline'
+//             : colorScheme === 'light'
+//               ? 'lightbulb-on-outline'
+//               : 'lightbulb-off-outline'
+//       }
+//       size={22}
+//       style={styles.icon}
+//     />
+//   </TouchableOpacity>
+// );
+
 const GetStartedScreen = () => {
   const router = useRouter();
 
@@ -15,7 +33,14 @@ const GetStartedScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Get started</Text>
+      <View style={styles.header}>
+        <Text style={styles.text}>Get started</Text>
+        {/* <ThemeIcon
+          colorScheme={colorScheme}
+          theme={theme}
+          onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        /> */}
+      </View>
       <View style={styles.infoContainer}>
         <Text style={styles.textInfo}>Create tasks</Text>
         <Text style={styles.textInfo}>•</Text>

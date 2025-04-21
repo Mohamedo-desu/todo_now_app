@@ -6,10 +6,10 @@ import { styles } from '@/styles/LoginScreen.styles';
 import { schema } from '@/validations/SignUpScreen.validation';
 import { useSignUp } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 
 export default function SignUpScreen() {
   const { isLoaded, signUp } = useSignUp();
@@ -44,6 +44,7 @@ export default function SignUpScreen() {
       router.push('/(public)/verificationModal');
     } catch (error) {
       console.log('signup error', error);
+      Alert.alert('Signup failed', 'Please check your credentials and try again.');
     }
   };
 
@@ -95,9 +96,9 @@ export default function SignUpScreen() {
         </View>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already have an account?</Text>
-          <Link href={'/(public)/login'} style={styles.footerText2}>
+          <Text style={styles.footerText2} onPress={() => router.back()}>
             Login
-          </Link>
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

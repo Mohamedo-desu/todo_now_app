@@ -1,6 +1,10 @@
 import * as yup from 'yup';
 
-// Signup validation schema
 export const schema = yup.object().shape({
-  code: yup.number().typeError('code must be a number').required('code is required'),
+  code: yup
+    .number()
+    .typeError('Code must be a number')
+    .integer('Code must be an integer')
+    .positive('Code must be a positive number')
+    .required('Code is required'),
 });

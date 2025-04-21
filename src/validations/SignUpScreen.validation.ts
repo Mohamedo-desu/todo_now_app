@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 
-// Signup validation schema
 export const schema = yup.object().shape({
   username: yup
     .string()
@@ -9,6 +8,10 @@ export const schema = yup.object().shape({
   email: yup.string().email('Please enter a valid email').required('Email is required'),
   password: yup
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, 'New password must be at least 8 characters')
+    .matches(
+      /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/,
+      'Password must contain uppercase, lowercase, number, and special character'
+    )
     .required('Password is required'),
 });

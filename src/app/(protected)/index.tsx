@@ -1,6 +1,6 @@
 import { useAuth } from '@clerk/clerk-expo';
 import React from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { Button, View } from 'react-native';
 
 const Home = () => {
   const { signOut } = useAuth();
@@ -12,5 +12,3 @@ const Home = () => {
 };
 
 export default Home;
-
-const styles = StyleSheet.create({});
