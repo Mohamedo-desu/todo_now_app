@@ -1,13 +1,13 @@
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import AuthHeader from '@/components/ui/AuthHeader';
-import { styles } from '@/styles/VerificationModal.styles';
-import { schema } from '@/validations/VerificationModal.validation';
 import { useSignUp } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import AuthHeader from '@/components/ui/AuthHeader';
+import { styles } from '@/styles/VerificationModal.styles';
+import { schema } from '@/validations/VerificationModal.validation';
 
 const VerificationModal = () => {
   const { isLoaded, signUp, setActive } = useSignUp();

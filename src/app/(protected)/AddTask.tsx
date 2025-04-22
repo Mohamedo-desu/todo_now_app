@@ -1,7 +1,3 @@
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import { styles } from '@/styles/AddTaskScreen.styles';
-import { schema } from '@/validations/AddTaskScreen.validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useMutation } from 'convex/react';
@@ -21,6 +17,10 @@ import {
 import BouncyCheckbox, { BouncyCheckboxHandle } from 'react-native-bouncy-checkbox';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import { styles } from '@/styles/AddTaskScreen.styles';
+import { schema } from '@/validations/AddTaskScreen.validation';
 
 const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
   fillColor: theme.Colors.primary,
@@ -105,6 +105,9 @@ const AddTask = () => {
 
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Task description</Text>
+            {errors.taskDescription && (
+              <Text style={styles.errorLabel}>{errors.taskDescription.message}</Text>
+            )}
             <Controller
               control={control}
               name={'taskDescription'}
@@ -120,13 +123,9 @@ const AddTask = () => {
                   autoCorrect
                   textBreakStrategy="highQuality"
                   multiline
-                  maxLength={500}
                 />
               )}
             />
-            {errors.taskDescription && (
-              <Text style={styles.errorLabel}>{errors.taskDescription.message}</Text>
-            )}
           </View>
 
           <View style={styles.datePickerContainer}>

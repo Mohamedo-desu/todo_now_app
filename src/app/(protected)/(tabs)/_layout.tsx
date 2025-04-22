@@ -55,11 +55,9 @@ export default TabsLayout;
 
 const styles = StyleSheet.create((theme, rt) => ({
   tabBarStyle: {
-    backgroundColor: theme.Colors.background,
     position: 'absolute',
-    height: 50,
-    paddingBottom: 8,
-    elevation: 0,
-    bottom: rt.insets.bottom,
+    bottom: 0,
+    backgroundColor: theme.Colors.background,
+    paddingBottom: rt.insets.bottom,
   },
 }));

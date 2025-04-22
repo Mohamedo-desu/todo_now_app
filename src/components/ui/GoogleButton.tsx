@@ -1,9 +1,9 @@
-import { styles } from '@/styles/components/GoogleButton.styles';
 import { useSSO } from '@clerk/clerk-expo';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Alert, Image, TouchableOpacity } from 'react-native';
+import { styles } from '@/styles/components/GoogleButton.styles';
 
 const GoogleButton = () => {
   const { startSSOFlow } = useSSO();

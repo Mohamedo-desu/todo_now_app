@@ -6,4 +6,5 @@ export interface AuthHeaderProps {
 
 export interface IconProps {
   onPress: () => void;
+  name?: string;
 }

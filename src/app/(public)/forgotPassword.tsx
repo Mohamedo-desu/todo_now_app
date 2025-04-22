@@ -1,14 +1,14 @@
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import AuthHeader from '@/components/ui/AuthHeader';
-import { styles } from '@/styles/ForgotPasswordScreen.styles';
-import { schema } from '@/validations/ForgotPasswordScreen.validation';
 import { useSignIn } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Platform, View } from 'react-native';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import AuthHeader from '@/components/ui/AuthHeader';
+import { styles } from '@/styles/ForgotPasswordScreen.styles';
+import { schema } from '@/validations/ForgotPasswordScreen.validation';
 
 const ForgotPassword = () => {
   const { isLoaded, signIn } = useSignIn();

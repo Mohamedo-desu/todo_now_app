@@ -1,15 +1,15 @@
-import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
-import AuthHeader from '@/components/ui/AuthHeader';
-import GoogleButton from '@/components/ui/GoogleButton';
-import { styles } from '@/styles/LoginScreen.styles';
-import { schema } from '@/validations/LoginScreen.validation';
 import { useSignIn } from '@clerk/clerk-expo';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import AuthHeader from '@/components/ui/AuthHeader';
+import GoogleButton from '@/components/ui/GoogleButton';
+import { styles } from '@/styles/LoginScreen.styles';
+import { schema } from '@/validations/LoginScreen.validation';
 
 const LoginScreen = () => {
   const { isLoaded, signIn, setActive } = useSignIn();

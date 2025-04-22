@@ -114,7 +114,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       "expo-secure-store",
     ],
     experiments: {
-      reactCompiler: true,
+      reactCompiler: false,
       typedRoutes: true,
       reactCanary: true,
       remoteBuildCache: {

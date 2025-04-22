@@ -1,7 +1,7 @@
-import { Fonts } from '@/constants/Fonts';
 import { StyleSheet } from 'react-native-unistyles';
+import { Fonts } from '@/constants/Fonts';
 
-export const styles = StyleSheet.create((theme, rt) => ({
+export const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.Colors.background,
@@ -9,7 +9,6 @@ export const styles = StyleSheet.create((theme, rt) => ({
   scrollContent: {
     flexGrow: 1,
     paddingTop: 20,
-    paddingBottom: rt.insets.bottom + 10,
     paddingHorizontal: 15,
   },
   formContainer: {
