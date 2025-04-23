@@ -6,5 +6,5 @@ export interface TaskCardProps {
     dueDate: string | Date;
     status: 'done' | 'in-progress';
   };
-  onEdit?: (item: any) => void;
+  index: number;
 }

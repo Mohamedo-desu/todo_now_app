@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native-unistyles';
 import { Fonts } from '@/constants/Fonts';
+import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create(theme => ({
   container: {
@@ -53,15 +53,36 @@ export const styles = StyleSheet.create(theme => ({
     paddingHorizontal: 6,
   },
   editText: {
-    fontSize: 14,
+    fontSize: 12,
     color: theme.Colors.primary,
     fontFamily: Fonts.Bold,
-    textDecorationLine: 'underline',
+  },
+  saveText: {
+    fontSize: 12,
+    color: theme.Colors.success,
+    fontFamily: Fonts.Bold,
   },
   deleteText: {
-    fontSize: 14,
+    fontSize: 12,
     color: theme.Colors.error,
     fontFamily: Fonts.Bold,
-    textDecorationLine: 'underline',
+  },
+  editTitleInput: {
+    backgroundColor: theme.Colors.background,
+    flex: 1,
+    color: theme.Colors.typography,
+    fontSize: 16,
+    fontFamily: Fonts.Bold,
+    borderWidth: 1,
+    borderColor: theme.Colors.gray[100],
+  },
+  editDescriptionInput: {
+    backgroundColor: theme.Colors.background,
+    flex: 1,
+    fontSize: 14,
+    fontFamily: Fonts.Medium,
+    color: theme.Colors.gray[500],
+    borderWidth: 1,
+    borderColor: theme.Colors.gray[100],
   },
 }));

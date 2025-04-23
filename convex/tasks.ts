@@ -81,14 +81,14 @@ export const editTask = mutation({
     if (task.userId !== user._id) throw new Error('Not authorized to edit this task');
 
     // Build the partial update object
-    const updates: Record<string, any> = { status };
+    const updates: Record<string, any> = {};
     if (title !== undefined) updates.title = title;
+    if (status !== undefined) updates.status = status;
     if (description !== undefined) updates.description = description;
     if (dueDate !== undefined) updates.dueDate = dueDate;
     if (priority !== undefined) updates.priority = priority;
 
     await db.patch(id, updates);
-    return { ...task, ...updates };
   },
 });
 

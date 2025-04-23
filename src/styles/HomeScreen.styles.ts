@@ -1,3 +1,4 @@
+import { Fonts } from '@/constants/Fonts';
 import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create((theme, rt) => ({
@@ -7,8 +8,9 @@ export const styles = StyleSheet.create((theme, rt) => ({
     paddingTop: rt.insets.top + 10,
     paddingHorizontal: 15,
   },
-  flatList: { marginTop: 10 },
+  flatList: { flex: 1, marginTop: 10 },
   contentContainerStyle: {
+    flexGrow: 1,
     gap: 15,
     paddingVertical: 20,
     paddingBottom: rt.insets.bottom + 60,
@@ -32,4 +34,11 @@ export const styles = StyleSheet.create((theme, rt) => ({
     color: theme.Colors.typography,
   },
   iconBtn: {},
+  footerText: {
+    color: theme.Colors.gray[500],
+    fontSize: 12,
+    fontFamily: Fonts.Medium,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
 }));

@@ -3,13 +3,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
 import { router } from 'expo-router';
 import React, { FC } from 'react';
-import { FlatList, Image, TouchableOpacity, View } from 'react-native';
-import { api } from '../../../../convex/_generated/api';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { LinearTransition } from 'react-native-reanimated';
+
 import Loader from '@/components/common/Loader';
 import AuthHeader from '@/components/ui/AuthHeader';
 import TaskCard from '@/components/ui/TaskCard';
 import { styles } from '@/styles/HomeScreen.styles';
 import { IconProps } from '@/types/AuthHeader.types';
+import { api } from '../../../../convex/_generated/api';
 
 const Icon: FC<IconProps> = ({ onPress, name }) => (
   <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.iconBtn} hitSlop={10}>
@@ -27,14 +29,10 @@ const Home = () => {
   } = usePaginatedQuery(
     api.tasks.fetchTasks as PaginatedQueryReference,
     {},
-    {
-      initialNumItems: 5,
-    }
+    { initialNumItems: 5 }
   );
 
-  const renderItem = ({ item }) => {
-    return <TaskCard item={item} />;
-  };
+  const renderItem = ({ item, index }) => <TaskCard item={item} index={index} />;
 
   return (
     <View style={styles.container}>
@@ -50,22 +48,32 @@ const Home = () => {
           <Icon onPress={() => undefined} name="notifications-outline" />
         </View>
       </View>
+
       <AuthHeader
         showBackButton={false}
         title={`Hello ${user?.firstName}`}
         description="What do you want to do today?"
       />
 
-      <FlatList
+      <Animated.FlatList
         data={tasks}
         renderItem={renderItem}
         keyExtractor={item => item._id}
         style={styles.flatList}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.5}
         onEndReached={() => loadMore(5)}
-        ListFooterComponent={status === 'LoadingMore' ? <Loader size="small" /> : null}
+        ListEmptyComponent={<Loader size="small" />}
+        ListFooterComponent={
+          status === 'LoadingMore' ? (
+            <Loader size="small" />
+          ) : status === 'Exhausted' ? (
+            <Text style={styles.footerText}>No more tasks</Text>
+          ) : null
+        }
+        itemLayoutAnimation={LinearTransition}
       />
     </View>
   );
