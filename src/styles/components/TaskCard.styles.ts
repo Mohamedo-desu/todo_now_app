@@ -1,10 +1,10 @@
-import { Fonts } from '@/constants/Fonts';
 import { StyleSheet } from 'react-native-unistyles';
+import { Fonts } from '@/constants/Fonts';
 
 export const styles = StyleSheet.create(theme => ({
   container: {
     borderWidth: 1,
-    backgroundColor: theme.Colors.background,
+    backgroundColor: theme.Colors.gray[100],
     borderColor: theme.Colors.gray[200],
     borderRadius: 5,
     padding: 10,

@@ -110,3 +110,28 @@ export const deleteTask = mutation({
     return true;
   },
 });
+
+export const searchTask = query({
+  args: {
+    taskTitle: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { db } = ctx;
+
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) throw new Error('Not authenticated');
+
+    const start = args.taskTitle;
+    const end = args.taskTitle + '\uffff';
+
+    const tasks = await db
+      .query('tasks')
+      .withIndex('by_user_title', q =>
+        q.eq('userId', user._id).gte('title', start).lt('title', end)
+      )
+      .order('desc')
+      .collect();
+
+    return tasks;
+  },
+});

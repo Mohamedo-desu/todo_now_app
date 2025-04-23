@@ -1,5 +1,3 @@
-import { styles } from '@/styles/components/TaskCard.styles';
-import { TaskCardProps } from '@/types/TaskCard.types';
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
 import React, { FC, useEffect, useState } from 'react';
@@ -9,6 +7,8 @@ import Animated, { SlideInDown, SlideOutLeft } from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
+import { styles } from '@/styles/components/TaskCard.styles';
+import { TaskCardProps } from '@/types/TaskCard.types';
 
 const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
   fillColor: theme.Colors.success,
