@@ -27,10 +27,11 @@ const Home = () => {
     results: tasks,
     status,
     loadMore,
+    isLoading,
   } = usePaginatedQuery(
     api.tasks.fetchTasks as PaginatedQueryReference,
     {},
-    { initialNumItems: 5 }
+    { initialNumItems: 10 }
   );
 
   const renderItem = ({ item, index }) => <TaskCard item={item} index={index} />;
@@ -65,12 +66,14 @@ const Home = () => {
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.5}
-        onEndReached={() => loadMore(5)}
-        ListEmptyComponent={<Loader size="small" />}
+        onEndReached={() => loadMore(10)}
+        ListEmptyComponent={
+          isLoading ? <Loader size="small" /> : <Empty text="Start creating tasks" />
+        }
         ListFooterComponent={
           status === 'LoadingMore' ? (
             <Loader size="small" />
-          ) : status === 'Exhausted' ? (
+          ) : status === 'Exhausted' && tasks.length !== 0 ? (
             <Empty text="No more tasks" />
           ) : null
         }

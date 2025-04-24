@@ -73,8 +73,10 @@ const AddTask = () => {
       });
       if (taskId) {
         reset(); //
-        setPriority(false);
-        bouncyCheckboxRef.current?.onCheckboxPress();
+        if (priority) {
+          setPriority(false);
+          bouncyCheckboxRef.current?.onCheckboxPress();
+        }
         Alert.alert('Success', 'Task added successfully!');
       }
     } catch (error) {

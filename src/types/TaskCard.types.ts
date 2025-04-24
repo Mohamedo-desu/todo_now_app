@@ -5,6 +5,7 @@ export interface TaskCardProps {
     description: string;
     dueDate: string | Date;
     status: 'done' | 'in-progress';
+    priority: boolean;
   };
   index: number;
 }

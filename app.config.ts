@@ -111,7 +111,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           },
         },
       ],
-      "expo-secure-store",
+      "expo-secure-store", 
+      "./plugins/custom-android-styles.js"
     ],
     experiments: {
       reactCompiler: false,

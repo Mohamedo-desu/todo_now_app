@@ -1,12 +1,13 @@
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
 import React, { FC, useEffect, useState } from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated, { SlideInDown, SlideOutLeft } from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
+import { Colors } from '@/constants/Colors';
 import { styles } from '@/styles/components/TaskCard.styles';
 import { TaskCardProps } from '@/types/TaskCard.types';
 
@@ -18,6 +19,7 @@ const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
 const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
   const formattedDate = format(new Date(item.dueDate), 'hh:mm a dd MMMM, yyyy');
   const [completed, setCompleted] = useState(item.status === 'done');
+  const [priorityOn, setPriorityOn] = useState(item.priority);
 
   const editTask = useMutation(api.tasks.editTask);
   const deleteTask = useMutation(api.tasks.deleteTask);
@@ -25,9 +27,11 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(item.title);
   const [editDescription, setEditDescription] = useState(item.description);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     setCompleted(item.status === 'done');
+    setPriorityOn(item.priority);
     setEditTitle(item.title);
     setEditDescription(item.description);
   }, [item]);
@@ -46,7 +50,23 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
     }
   };
 
+  const handlePriorityToggle = async (checked: boolean) => {
+    setPriorityOn(checked);
+    try {
+      await editTask({
+        id: item._id as Id<'tasks'>,
+        priority: checked,
+      });
+    } catch (err) {
+      console.error('Failed to update priority', err);
+      setPriorityOn(!checked);
+      Alert.alert('Error', 'Could not update priority flag.');
+    }
+  };
+
   const handleDelete = () => {
+    if (deleting) return;
+
     Alert.alert('Delete Task', 'Are you sure you want to delete this task?', [
       { text: 'Cancel', style: 'cancel' },
       {
@@ -54,10 +74,13 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
         style: 'destructive',
         onPress: async () => {
           try {
+            setDeleting(true);
             await deleteTask({ id: item._id as Id<'tasks'> });
           } catch (err) {
             console.error('Failed to delete task', err);
             Alert.alert('Error', 'Could not delete task.');
+          } finally {
+            setDeleting(false);
           }
         },
       },
@@ -129,9 +152,13 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
               <TouchableOpacity onPress={handleEdit} style={styles.actionBtn} hitSlop={10}>
                 <Text style={styles.editText}>Edit</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleDelete} style={styles.actionBtn} hitSlop={10}>
-                <Text style={styles.deleteText}>Delete</Text>
-              </TouchableOpacity>
+              {deleting ? (
+                <ActivityIndicator size={12} color={Colors.error} />
+              ) : (
+                <TouchableOpacity onPress={handleDelete} style={styles.actionBtn} hitSlop={10}>
+                  <Text style={styles.deleteText}>Delete</Text>
+                </TouchableOpacity>
+              )}
             </>
           )}
         </View>
@@ -163,6 +190,16 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
           textStyle={styles.taskStatusLabel}
           size={20}
         />
+        {isEditing && (
+          <CheckBoxUnistyle
+            isChecked={priorityOn}
+            onPress={handlePriorityToggle}
+            text="Set as priority"
+            textStyle={styles.taskStatusLabel}
+            size={20}
+            fillColor={Colors.primary}
+          />
+        )}
       </View>
     </Animated.View>
   );

@@ -1,7 +1,3 @@
-import Empty from '@/components/common/Empty';
-import Loader from '@/components/common/Loader';
-import TaskCard from '@/components/ui/TaskCard';
-import { IconProps } from '@/types/AuthHeader.types';
 import { Ionicons } from '@expo/vector-icons';
 import { useConvex } from 'convex/react';
 import React, { FC, useCallback, useMemo, useState } from 'react';
@@ -9,6 +5,10 @@ import { TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { StyleSheet, withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
+import Empty from '@/components/common/Empty';
+import Loader from '@/components/common/Loader';
+import TaskCard from '@/components/ui/TaskCard';
+import { IconProps } from '@/types/AuthHeader.types';
 
 const TextInputUnistyles = withUnistyles(TextInput, theme => ({
   placeholderTextColor: theme.Colors.gray[400],

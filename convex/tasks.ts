@@ -18,7 +18,7 @@ export const fetchTasks = query({
 
     const tasks = await db
       .query('tasks')
-      .withIndex('by_user', q => q.eq('userId', user._id))
+      .withIndex('by_user_priority', q => q.eq('userId', user._id))
       .order('desc')
       .paginate(args.paginationOpts);
 

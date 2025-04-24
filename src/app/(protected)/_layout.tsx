@@ -10,7 +10,12 @@ const ProtectedLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="AddTask" options={{}} />
+      <Stack.Screen
+        name="AddTask"
+        options={{
+          animation: 'fade_from_bottom',
+        }}
+      />
     </Stack>
   );
 };
