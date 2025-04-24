@@ -5,7 +5,7 @@ export const schema = yup.object().shape({
     .string()
     .trim()
     .min(3, 'Title must be at least 3 characters')
-    .max(25, 'Title must be at most 25 characters')
+    .max(40, 'Title must be at most 40 characters')
     .required('Task title is required'),
 
   taskDescription: yup

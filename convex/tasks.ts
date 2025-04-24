@@ -45,7 +45,9 @@ export const fetchPendingTasks = query({
 
     const tasks = await db
       .query('tasks')
-      .withIndex('by_status', q => q.eq('status', 'in-progress'))
+      .withIndex('by_user_status_dueDate', q =>
+        q.eq('userId', user._id).eq('status', 'in-progress')
+      )
       .order('desc')
       .paginate(args.paginationOpts);
 
@@ -71,7 +73,7 @@ export const fetchCompletedTasks = query({
 
     const tasks = await db
       .query('tasks')
-      .withIndex('by_status', q => q.eq('status', 'done'))
+      .withIndex('by_user_status_dueDate', q => q.eq('userId', user._id).eq('status', 'done'))
       .order('desc')
       .paginate(args.paginationOpts);
 
