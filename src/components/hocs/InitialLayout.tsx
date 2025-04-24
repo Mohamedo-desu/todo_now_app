@@ -1,10 +1,8 @@
+import { styles } from '@/styles/layouts/InitialLayout.styles';
 import { useAuth } from '@clerk/clerk-expo';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
-import { Colors } from '@/constants/Colors';
-import { Fonts } from '@/constants/Fonts';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -52,25 +50,3 @@ const InitialLayout = () => {
 };
 
 export default InitialLayout;
-
-const styles = StyleSheet.create(theme => ({
-  container: {
-    backgroundColor: theme.Colors.background,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textContainer: { flexDirection: 'row', gap: 10 },
-  text: {
-    fontFamily: Fonts.Bold,
-    fontSize: 28,
-    letterSpacing: 1.5,
-    color: Colors.primary,
-  },
-  text2: {
-    fontFamily: Fonts.Bold,
-    fontSize: 28,
-    letterSpacing: 1.5,
-    color: theme.Colors.typography,
-  },
-}));
