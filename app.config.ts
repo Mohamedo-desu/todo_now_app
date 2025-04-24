@@ -80,13 +80,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-font",
         {
-          fonts: [
-            "./assets/fonts/Urbanist-Black.ttf",
+          fonts: [          
             "./assets/fonts/Urbanist-Bold.ttf",
             "./assets/fonts/Urbanist-Medium.ttf",
-            "./assets/fonts/Urbanist-Regular.ttf",
-            "./assets/fonts/Urbanist-SemiBold.ttf",
-            "./assets/fonts/Urbanist-Thin.ttf",
+            "./assets/fonts/Urbanist-Regular.ttf",      
           ],
         },
       ],
