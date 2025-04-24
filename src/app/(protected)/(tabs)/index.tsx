@@ -9,12 +9,12 @@ import Animated, { LinearTransition } from 'react-native-reanimated';
 import { api } from '../../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
+import RenderTaskCard from '@/components/common/RenderTaskCard';
 import AuthHeader from '@/components/ui/AuthHeader';
-import TaskCard from '@/components/ui/TaskCard';
 import { styles } from '@/styles/HomeScreen.styles';
-import { IconProps } from '@/types/AuthHeader.types';
+import { IconWithNameProps } from '@/types/AuthHeader.types';
 
-const Icon: FC<IconProps> = ({ onPress, name }) => (
+const Icon: FC<IconWithNameProps> = ({ onPress, name }) => (
   <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.iconBtn} hitSlop={10}>
     <Ionicons name={name} size={24} style={styles.icon} />
   </TouchableOpacity>
@@ -33,8 +33,6 @@ const Home = () => {
     {},
     { initialNumItems: 10 }
   );
-
-  const renderItem = ({ item, index }) => <TaskCard item={item} index={index} />;
 
   return (
     <View style={styles.container}>
@@ -59,7 +57,7 @@ const Home = () => {
 
       <Animated.FlatList
         data={tasks}
-        renderItem={renderItem}
+        renderItem={RenderTaskCard}
         keyExtractor={item => item._id}
         style={styles.flatList}
         keyboardShouldPersistTaps="handled"

@@ -6,9 +6,10 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { withLayoutContext } from 'expo-router';
 import React from 'react';
-import { Animated } from 'react-native';
-import { StyleSheet, withUnistyles } from 'react-native-unistyles';
+import { Animated, Text } from 'react-native';
+import { withUnistyles } from 'react-native-unistyles';
 import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/layouts/TasksLayout.styles';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -49,6 +50,16 @@ const MaterialTopTabsUniStyle = withUnistyles(MaterialTopTabs, theme => ({
 
       return <Animated.View style={[styles.indicator, { transform: [{ translateX }] }]} />;
     },
+    tabBarLabel: ({ focused, color, children }) => (
+      <Text
+        style={[
+          styles.tabBarLabelStyle,
+          { color, fontFamily: focused ? theme.fonts.Bold : theme.fonts.Regular },
+        ]}
+      >
+        {children}
+      </Text>
+    ),
   },
 }));
 const TasksLayout = () => {
@@ -62,24 +73,3 @@ const TasksLayout = () => {
 };
 
 export default TasksLayout;
-
-const styles = StyleSheet.create((theme, rt) => ({
-  container: {
-    paddingTop: rt.insets.top,
-    backgroundColor: theme.Colors.background,
-  },
-  indicator: {
-    position: 'absolute',
-    width: 85,
-    height: 4,
-    backgroundColor: Colors.primary,
-    bottom: 0,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-  },
-  tabBarLabelStyle: {
-    textTransform: 'capitalize',
-    fontFamily: theme.fonts.Medium,
-    fontSize: 15,
-  },
-}));

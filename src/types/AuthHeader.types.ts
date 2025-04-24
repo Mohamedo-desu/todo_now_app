@@ -1,3 +1,5 @@
+import { Ionicons } from '@expo/vector-icons';
+
 export interface AuthHeaderProps {
   title?: string;
   description?: string;
@@ -6,5 +8,8 @@ export interface AuthHeaderProps {
 
 export interface IconProps {
   onPress: () => void;
-  name?: string;
+}
+export interface IconWithNameProps {
+  onPress: () => void;
+  name: keyof typeof Ionicons.glyphMap;
 }

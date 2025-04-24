@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { styles } from '@/styles/layouts/TabsLayout.styles';
 
 const TabsLayout = () => {
   return (
@@ -52,12 +52,3 @@ const TabsLayout = () => {
 };
 
 export default TabsLayout;
-
-const styles = StyleSheet.create((theme, rt) => ({
-  tabBarStyle: {
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: theme.Colors.background,
-    paddingBottom: rt.insets.bottom,
-  },
-}));

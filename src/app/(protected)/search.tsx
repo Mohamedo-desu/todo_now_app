@@ -3,11 +3,12 @@ import { useConvex } from 'convex/react';
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
-import { StyleSheet, withUnistyles } from 'react-native-unistyles';
+import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
-import TaskCard from '@/components/ui/TaskCard';
+import RenderTaskCard from '@/components/common/RenderTaskCard';
+import { styles } from '@/styles/SearchScreen.styles';
 import { IconProps } from '@/types/AuthHeader.types';
 
 const TextInputUnistyles = withUnistyles(TextInput, theme => ({
@@ -59,8 +60,6 @@ const SearchScreen = () => {
 
   const debouncedHandleSearch = useMemo(() => debounce(handleSearch, 500), [handleSearch]);
 
-  const renderItem = ({ item, index }) => <TaskCard item={item} index={index} />;
-
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -82,7 +81,7 @@ const SearchScreen = () => {
       ) : (
         <Animated.FlatList
           data={tasks}
-          renderItem={renderItem}
+          renderItem={RenderTaskCard}
           keyExtractor={item => item._id}
           style={styles.flatList}
           keyboardShouldPersistTaps="handled"
@@ -97,39 +96,3 @@ const SearchScreen = () => {
 };
 
 export default SearchScreen;
-
-const styles = StyleSheet.create((theme, rt) => ({
-  container: {
-    flex: 1,
-    backgroundColor: theme.Colors.background,
-    padding: 15,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 50,
-    borderWidth: 1,
-    backgroundColor: theme.Colors.gray[100],
-    borderColor: theme.Colors.gray[200],
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    color: theme.Colors.typography,
-    placeholderTextColor: theme.Colors.gray[400],
-  },
-  searchInput: {
-    flex: 1,
-    color: theme.Colors.typography,
-    padding: 0,
-  },
-  icon: {
-    color: theme.Colors.gray[400],
-  },
-  iconBtn: {},
-  flatList: { flex: 1, marginTop: 10 },
-  contentContainerStyle: {
-    flexGrow: 1,
-    gap: 15,
-    paddingVertical: 20,
-    paddingBottom: rt.insets.bottom + 60,
-  },
-}));

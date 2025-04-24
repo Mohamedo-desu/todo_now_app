@@ -19,6 +19,7 @@ export default defineSchema({
   })
     .index('by_user', ['userId'])
     .index('by_status', ['status'])
+    .index('by_user_status_dueDate', ['userId', 'status', 'dueDate'])
     .index('by_user_title', ['userId', 'title'])
     .index('by_user_priority', ['userId', 'priority']),
 });

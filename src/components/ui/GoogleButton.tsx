@@ -21,7 +21,7 @@ const GoogleButton = () => {
 
       if (setActive && createdSessionId) {
         setActive({ session: createdSessionId });
-        router.replace('/(protected)');
+        router.replace('/(protected)/(tabs)');
       }
     } catch (error) {
       console.log('OAuth error', error);

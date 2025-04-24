@@ -30,6 +30,84 @@ export const fetchTasks = query({
   },
 });
 
+export const fetchPendingTasks = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    const { db } = ctx;
+
+    const user = await getAuthenticatedUser(ctx);
+
+    if (!user) {
+      return [];
+    }
+
+    const tasks = await db
+      .query('tasks')
+      .withIndex('by_status', q => q.eq('status', 'in-progress'))
+      .order('desc')
+      .paginate(args.paginationOpts);
+
+    if (!tasks) {
+      return [];
+    }
+
+    return tasks;
+  },
+});
+export const fetchCompletedTasks = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    const { db } = ctx;
+
+    const user = await getAuthenticatedUser(ctx);
+
+    if (!user) {
+      return [];
+    }
+
+    const tasks = await db
+      .query('tasks')
+      .withIndex('by_status', q => q.eq('status', 'done'))
+      .order('desc')
+      .paginate(args.paginationOpts);
+
+    if (!tasks) {
+      return [];
+    }
+
+    return tasks;
+  },
+});
+
+export const fetchOverdueTasks = query({
+  args: {
+    paginationOpts: paginationOptsValidator,
+  },
+  handler: async (ctx, args) => {
+    const { db } = ctx;
+    const user = await getAuthenticatedUser(ctx);
+    if (!user) {
+      return [];
+    }
+
+    const now = new Date().getTime();
+
+    const tasks = await db
+      .query('tasks')
+      .withIndex('by_user_status_dueDate', q =>
+        q.eq('userId', user._id).eq('status', 'in-progress').lt('dueDate', now)
+      )
+      .order('desc')
+      .paginate(args.paginationOpts);
+
+    return tasks ?? [];
+  },
+});
+
 export const addTask = mutation({
   args: {
     title: v.string(),

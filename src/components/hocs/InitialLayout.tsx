@@ -19,7 +19,7 @@ const InitialLayout = () => {
     if (!isSignedIn && !inPublicLayout) {
       router.replace('/(public)');
     } else if (isSignedIn && inPublicLayout) {
-      router.replace('/(protected)');
+      router.replace('/(protected)/(tabs)');
     }
   }, [isLoaded, isSignedIn, router, segments]);
 
