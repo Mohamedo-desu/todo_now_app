@@ -1,15 +1,15 @@
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/components/TaskCard.styles';
+import { TaskCardProps } from '@/types/TaskCard.types';
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
 import React, { FC, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import Animated, { SlideInDown, SlideOutLeft } from 'react-native-reanimated';
+import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/components/TaskCard.styles';
-import { TaskCardProps } from '@/types/TaskCard.types';
 
 const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
   fillColor: theme.Colors.success,
@@ -28,6 +28,7 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
   const [editTitle, setEditTitle] = useState(item.title);
   const [editDescription, setEditDescription] = useState(item.description);
   const [deleting, setDeleting] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setCompleted(item.status === 'done');
@@ -52,16 +53,6 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
 
   const handlePriorityToggle = async (checked: boolean) => {
     setPriorityOn(checked);
-    try {
-      await editTask({
-        id: item._id as Id<'tasks'>,
-        priority: checked,
-      });
-    } catch (err) {
-      console.error('Failed to update priority', err);
-      setPriorityOn(!checked);
-      Alert.alert('Error', 'Could not update priority flag.');
-    }
   };
 
   const handleDelete = () => {
@@ -103,26 +94,28 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
       Alert.alert('Validation Error', 'Title and description cannot be empty.');
       return;
     }
+    if (saving) return;
+
+    setSaving(true);
+
     try {
       await editTask({
         id: item._id as Id<'tasks'>,
         title: editTitle.trim(),
         description: editDescription.trim(),
+        priority: priorityOn,
       });
-      setIsEditing(false);
     } catch (err) {
       console.error('Failed to save task edits', err);
       Alert.alert('Error', 'Could not save task changes.');
+    } finally {
+      setSaving(false);
+      setIsEditing(false);
     }
   };
 
   return (
-    <Animated.View
-      style={styles.container}
-      entering={SlideInDown.delay(index * 100)}
-      exiting={SlideOutLeft}
-    >
-      {/* Title and Actions */}
+    <Animated.View style={styles.container} entering={ZoomIn.delay(index * 100)} exiting={ZoomOut}>
       <View style={styles.header}>
         {isEditing ? (
           <TextInput
@@ -140,9 +133,14 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
         <View style={styles.actions}>
           {isEditing ? (
             <>
-              <TouchableOpacity onPress={handleSaveTask} style={styles.actionBtn} hitSlop={10}>
-                <Text style={styles.saveText}>Save</Text>
-              </TouchableOpacity>
+              {saving ? (
+                <ActivityIndicator size={12} color={Colors.success} />
+              ) : (
+                <TouchableOpacity onPress={handleSaveTask} style={styles.actionBtn} hitSlop={10}>
+                  <Text style={styles.saveText}>Save</Text>
+                </TouchableOpacity>
+              )}
+
               <TouchableOpacity onPress={handleCancelEditing} style={styles.actionBtn} hitSlop={10}>
                 <Text style={styles.deleteText}>Cancel</Text>
               </TouchableOpacity>
@@ -164,7 +162,6 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
         </View>
       </View>
 
-      {/* Description */}
       {isEditing ? (
         <TextInput
           value={editDescription}
@@ -180,7 +177,6 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
         </Text>
       )}
 
-      {/* Footer: due date and checkbox */}
       <View style={styles.footer}>
         <Text style={styles.date}>{formattedDate}</Text>
         <CheckBoxUnistyle

@@ -1,3 +1,5 @@
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/layouts/TasksLayout.styles';
 import {
   MaterialTopTabNavigationEventMap,
   MaterialTopTabNavigationOptions,
@@ -6,10 +8,8 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { withLayoutContext } from 'expo-router';
 import React from 'react';
-import { Animated, Text } from 'react-native';
+import { Animated } from 'react-native';
 import { withUnistyles } from 'react-native-unistyles';
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/layouts/TasksLayout.styles';
 
 const { Navigator } = createMaterialTopTabNavigator();
 
@@ -50,16 +50,6 @@ const MaterialTopTabsUniStyle = withUnistyles(MaterialTopTabs, theme => ({
 
       return <Animated.View style={[styles.indicator, { transform: [{ translateX }] }]} />;
     },
-    tabBarLabel: ({ focused, color, children }) => (
-      <Text
-        style={[
-          styles.tabBarLabelStyle,
-          { color, fontFamily: focused ? theme.fonts.Bold : theme.fonts.Regular },
-        ]}
-      >
-        {children}
-      </Text>
-    ),
   },
 }));
 const TasksLayout = () => {

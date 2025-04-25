@@ -7,8 +7,8 @@ export const styles = StyleSheet.create((theme, rt) => ({
   },
   indicator: {
     position: 'absolute',
-    width: 85,
-    height: 4,
+    width: 100,
+    height: 2,
     backgroundColor: theme.Colors.primary,
     bottom: 0,
     borderTopLeftRadius: 5,

@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native-unistyles';
 import { Fonts } from '@/constants/Fonts';
+import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create((theme, rt) => ({
   container: {
