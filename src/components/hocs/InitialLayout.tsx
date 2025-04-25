@@ -1,5 +1,6 @@
 import { styles } from '@/styles/layouts/InitialLayout.styles';
 import { useAuth } from '@clerk/clerk-expo';
+import * as Application from 'expo-application';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -28,6 +29,8 @@ const InitialLayout = () => {
           <Text style={styles.text}>ToDo</Text>
           <Text style={styles.text2}>Now</Text>
         </View>
+
+        <Text style={styles.versionCodeText}>{Application.nativeApplicationVersion}</Text>
       </View>
     );
 

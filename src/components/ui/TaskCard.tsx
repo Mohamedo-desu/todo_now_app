@@ -134,7 +134,9 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
           {isEditing ? (
             <>
               {saving ? (
-                <ActivityIndicator size={12} color={Colors.success} />
+                <View style={styles.actionBtn}>
+                  <ActivityIndicator size={12} color={Colors.success} />
+                </View>
               ) : (
                 <TouchableOpacity onPress={handleSaveTask} style={styles.actionBtn} hitSlop={10}>
                   <Text style={styles.saveText}>Save</Text>
@@ -151,7 +153,9 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
                 <Text style={styles.editText}>Edit</Text>
               </TouchableOpacity>
               {deleting ? (
-                <ActivityIndicator size={12} color={Colors.error} />
+                <View style={styles.actionBtn}>
+                  <ActivityIndicator size={12} color={Colors.error} />
+                </View>
               ) : (
                 <TouchableOpacity onPress={handleDelete} style={styles.actionBtn} hitSlop={10}>
                   <Text style={styles.deleteText}>Delete</Text>

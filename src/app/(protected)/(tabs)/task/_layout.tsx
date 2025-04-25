@@ -8,7 +8,6 @@ import {
 import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { withLayoutContext } from 'expo-router';
 import React from 'react';
-import { Animated } from 'react-native';
 import { withUnistyles } from 'react-native-unistyles';
 
 const { Navigator } = createMaterialTopTabNavigator();
@@ -31,25 +30,6 @@ const MaterialTopTabsUniStyle = withUnistyles(MaterialTopTabs, theme => ({
     tabBarStyle: styles.container,
     tabBarLabelStyle: styles.tabBarLabelStyle,
     tabBarAllowFontScaling: true,
-    tabBarIndicator: ({ state, position, getTabWidth }) => {
-      const inputRange = state.routes.map((_, i) => i);
-
-      const outputRange = state.routes.map((_, i) => {
-        const offsetBefore = state.routes
-          .slice(0, i)
-          .reduce((sum, _, idx) => sum + getTabWidth(idx), 0);
-
-        return offsetBefore + (getTabWidth(i) - 80) / 2;
-      });
-
-      const translateX = position.interpolate({
-        inputRange,
-        outputRange,
-        extrapolate: 'clamp',
-      });
-
-      return <Animated.View style={[styles.indicator, { transform: [{ translateX }] }]} />;
-    },
   },
 }));
 const TasksLayout = () => {

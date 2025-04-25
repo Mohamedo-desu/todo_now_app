@@ -1,13 +1,14 @@
-import { v } from "convex/values";
+import { v } from 'convex/values';
+import { internal } from './_generated/api';
 import {
+  action,
   internalMutation,
   mutation,
   MutationCtx,
   query,
   QueryCtx,
-} from "./_generated/server";
+} from './_generated/server';
 
-// Create a new task with the given text
 export const createUser = internalMutation({
   args: {
     username: v.string(),
@@ -16,16 +17,14 @@ export const createUser = internalMutation({
     clerkId: v.string(),
   },
   handler: async (ctx, args) => {
-    //   CHECK IF USER ALREADY EXISTS
     const existingUser = await ctx.db
-      .query("users")
-      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
-      .first();
+      .query('users')
+      .withIndex('by_clerk_id', q => q.eq('clerkId', args.clerkId))
+      .unique();
 
     if (existingUser) return;
 
-    // CREATE USER
-    await ctx.db.insert("users", {
+    await ctx.db.insert('users', {
       username: args.username,
       image: args.image,
       email: args.email,
@@ -36,14 +35,14 @@ export const createUser = internalMutation({
 
 export const getAuthenticatedUser = async (ctx: QueryCtx | MutationCtx) => {
   const identity = await ctx.auth.getUserIdentity();
-  if (!identity) throw new Error("unauthorized");
+  if (!identity) return null;
 
   const currentUser = await ctx.db
-    .query("users")
-    .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+    .query('users')
+    .withIndex('by_clerk_id', q => q.eq('clerkId', identity.subject))
     .unique();
 
-  if (!currentUser) throw new Error("User not found");
+  if (!currentUser) return null;
 
   return currentUser;
 };
@@ -54,33 +53,102 @@ export const getUserByClerkId = query({
   },
   handler: async (ctx, args) => {
     const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .query('users')
+      .withIndex('by_clerk_id', q => q.eq('clerkId', args.clerkId))
       .unique();
 
     return user;
   },
 });
 
-export const updateProfile = mutation({
-  args: {
-    fullname: v.string(),
-    bio: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    const currentUser = await getAuthenticatedUser(ctx);
+export const initiateAccountDeletion = action({
+  handler: async ctx => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error('Not authenticated');
+    }
 
-    await ctx.db.patch(currentUser._id, {});
+    const clerkId = identity.subject;
+
+    try {
+      const CLERK_API_KEY = process.env.CLERK_API_KEY;
+      if (!CLERK_API_KEY) {
+        throw new Error('Clerk API key not configured');
+      }
+
+      const response = await fetch(`https://api.clerk.com/v1/users/${clerkId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${CLERK_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        console.error(`Failed to delete Clerk user: ${errorData}`);
+        throw new Error(`Clerk API error: ${response.status}`);
+      }
+
+      console.log(`Successfully deleted Clerk user: ${clerkId}`);
+
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting user account:', error);
+      throw new Error('Failed to delete user account');
+    }
   },
 });
 
-export const getUserProfile = query({
+export const deleteUserData = internalMutation({
   args: {
-    userId: v.id("users"),
+    clerkId: v.string(),
   },
   handler: async (ctx, args) => {
-    const user = await ctx.db.get(args.userId);
-    if (!user) throw new Error("User not found");
-    return user;
+    const { db } = ctx;
+
+    const user = await db
+      .query('users')
+      .withIndex('by_clerk_id', q => q.eq('clerkId', args.clerkId))
+      .unique();
+
+    if (!user) {
+      console.log(`User with Clerk ID ${args.clerkId} not found in the database`);
+      return { success: false };
+    }
+
+    const userTasks = await db
+      .query('tasks')
+      .withIndex('by_user', q => q.eq('userId', user._id))
+      .collect();
+
+    for (const task of userTasks) {
+      await db.delete(task._id);
+    }
+
+    await db.delete(user._id);
+
+    console.log(`User data deleted for Clerk ID: ${args.clerkId}`);
+    return { success: true };
+  },
+});
+
+// Kept for backward compatibility - now delegates to deleteUserData
+export const deleteAccount = mutation({
+  handler: async ctx => {
+    const user = await getAuthenticatedUser(ctx);
+
+    if (!user) {
+      return { success: false, error: 'Not authenticated' };
+    }
+
+    const clerkId = user.clerkId;
+
+    try {
+      await ctx.runMutation(internal.users.deleteUserData, { clerkId });
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: 'Failed to delete user data' };
+    }
   },
 });

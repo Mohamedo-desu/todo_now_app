@@ -6,8 +6,7 @@ export const styles = StyleSheet.create((theme, rt) => ({
     flex: 1,
     backgroundColor: theme.Colors.background,
     padding: 15,
-    paddingTop: rt.insets.top + 10,
-    paddingBottom: rt.insets.bottom + 10,
+    paddingVertical: 60,
     paddingHorizontal: 15,
   },
   userContainer: {

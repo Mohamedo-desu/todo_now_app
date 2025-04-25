@@ -1,12 +1,16 @@
-import { useAuth, useUser } from '@clerk/clerk-expo';
-
-import React from 'react';
-import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from '@/styles/ProfileScreen.styles';
+import { useAuth, useUser } from '@clerk/clerk-expo';
+import { useAction } from 'convex/react';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert, Image, Text, TouchableOpacity, View } from 'react-native';
+import { api } from '../../../convex/_generated/api';
 
 const ProfileScreen = () => {
   const { user } = useUser();
   const { signOut } = useAuth();
+  const deleteAccountAction = useAction(api.users.initiateAccountDeletion);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleLogOut = async () => {
     try {
@@ -35,7 +39,59 @@ const ProfileScreen = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {};
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsDeleting(true);
+
+              const result = await deleteAccountAction();
+
+              if (result.success) {
+                try {
+                  await signOut();
+                } catch (signOutError) {
+                  console.error('Error signing out:', signOutError);
+                }
+
+                router.replace('/(public)');
+
+                setTimeout(() => {
+                  Alert.alert('Account Deleted', 'Your account has been successfully deleted.');
+                }, 500);
+              } else {
+                throw new Error('Deletion failed');
+              }
+            } catch (error) {
+              console.error('Error deleting account:', error);
+              setIsDeleting(false);
+
+              let errorMsg = 'Failed to delete account.';
+              if (error instanceof Error) {
+                errorMsg += ' ' + error.message;
+              }
+
+              Alert.alert('Error', errorMsg);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const navigateToPrivacyPolicy = () => {
+    router.push('/privacy-policy');
+  };
 
   return (
     <View style={styles.container}>
@@ -43,18 +99,31 @@ const ProfileScreen = () => {
         <Image source={{ uri: user?.imageUrl }} resizeMode="cover" style={styles.image} />
         <Text style={styles.title}>{user?.firstName}</Text>
         <Text style={styles.email}>{user?.emailAddresses[0].emailAddress}</Text>
+        <TouchableOpacity
+          style={styles.btn(true)}
+          activeOpacity={0.8}
+          onPress={navigateToPrivacyPolicy}
+        >
+          <Text style={styles.btnText(true)}>Privacy Policy</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.height} />
       <View>
         <TouchableOpacity style={styles.btn(true)} activeOpacity={0.8} onPress={handleLogOut}>
           <Text style={styles.btnText(true)}>Log out</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.btn(false)}
           activeOpacity={0.8}
           onPress={handleDeleteAccount}
+          disabled={isDeleting}
         >
-          <Text style={styles.btnText(false)}>Delete account</Text>
+          {isDeleting ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Text style={styles.btnText(false)}>Delete account</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

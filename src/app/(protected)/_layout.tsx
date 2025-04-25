@@ -16,6 +16,12 @@ const ProtectedLayout = () => {
           animation: 'fade_from_bottom',
         }}
       />
+      <Stack.Screen
+        name="privacy-policy"
+        options={{
+          headerShown: true,
+        }}
+      />
     </Stack>
   );
 };
