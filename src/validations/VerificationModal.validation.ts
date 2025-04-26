@@ -1,10 +1,7 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-export const schema = yup.object().shape({
-  code: yup
-    .number()
-    .typeError('Code must be a number')
-    .integer('Code must be an integer')
-    .positive('Code must be a positive number')
-    .required('Code is required'),
+export const schema = z.object({
+  code: z.string().min(1, { message: 'Code is required' }),
 });
+
+export type VerificationFormData = z.infer<typeof schema>;

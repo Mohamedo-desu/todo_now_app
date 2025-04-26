@@ -1,12 +1,10 @@
 import { Fonts } from '@/constants/Fonts';
 import { StyleSheet } from 'react-native-unistyles';
 
-export const styles = StyleSheet.create((theme, rt) => ({
+export const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.Colors.background,
-    padding: 15,
-    paddingVertical: 60,
     paddingHorizontal: 15,
   },
   userContainer: {
@@ -26,10 +24,25 @@ export const styles = StyleSheet.create((theme, rt) => ({
     marginBottom: 5,
     textAlign: 'center',
   },
-  email: { fontSize: 14, fontFamily: Fonts.Regular, color: theme.Colors.gray[500] },
+  email: {
+    fontSize: 14,
+    fontFamily: Fonts.Regular,
+    color: theme.Colors.gray[500],
+    marginBottom: 15,
+  },
+  privacyPolicyText: {
+    fontSize: 14,
+    fontFamily: Fonts.Medium,
+    color: theme.Colors.primary,
+    textDecorationLine: 'underline',
+    marginTop: 5,
+  },
   height: {
-    flex: 1,
-    flexGrow: 1,
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 50,
+    width: '100%',
+    gap: 10,
   },
   btn: isLogin => ({
     width: '100%',
@@ -38,6 +51,10 @@ export const styles = StyleSheet.create((theme, rt) => ({
     alignItems: 'center',
     padding: 10,
     borderRadius: 5,
+    height: 44,
+    marginBottom: 5,
+    borderWidth: isLogin ? 1 : 0,
+    borderColor: theme.Colors.primary,
   }),
   btnText: isLogin => ({
     color: isLogin ? theme.Colors.primary : theme.Colors.white,

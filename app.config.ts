@@ -108,6 +108,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           },
         },
       ],
+      "expo-web-browser",
       "expo-secure-store", 
       "./plugins/custom-android-styles.js"
     ],

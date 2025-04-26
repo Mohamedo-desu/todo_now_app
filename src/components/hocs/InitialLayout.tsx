@@ -1,9 +1,9 @@
-import { styles } from '@/styles/layouts/InitialLayout.styles';
 import { useAuth } from '@clerk/clerk-expo';
 import * as Application from 'expo-application';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
+import { styles } from '@/styles/layouts/InitialLayout.styles';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();

@@ -1,5 +1,3 @@
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/layouts/TasksLayout.styles';
 import {
   MaterialTopTabNavigationEventMap,
   MaterialTopTabNavigationOptions,
@@ -9,6 +7,8 @@ import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 import { withLayoutContext } from 'expo-router';
 import React from 'react';
 import { withUnistyles } from 'react-native-unistyles';
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/layouts/TasksLayout.styles';
 
 const { Navigator } = createMaterialTopTabNavigator();
 

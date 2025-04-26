@@ -1,16 +1,23 @@
+import { useSignIn } from '@clerk/clerk-expo';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, router } from 'expo-router';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
 import GoogleButton from '@/components/ui/GoogleButton';
 import PrivacyTerms from '@/components/ui/PrivacyTerms';
 import { styles } from '@/styles/LoginScreen.styles';
-import { schema } from '@/validations/LoginScreen.validation';
-import { useSignIn } from '@clerk/clerk-expo';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Link, router } from 'expo-router';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { LoginFormData, schema } from '@/validations/LoginScreen.validation';
+
+// Custom link component to wrap the text
+const ForgotPasswordLink = () => (
+  <Link href={'/(public)/forgotPassword'} style={styles.forgotLabel}>
+    <Text>forgot password?</Text>
+  </Link>
+);
 
 const LoginScreen = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -19,8 +26,8 @@ const LoginScreen = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
@@ -30,7 +37,7 @@ const LoginScreen = () => {
     shouldFocusError: true,
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormData) => {
     try {
       if (!isLoaded) return;
       const { email, password } = data;
@@ -78,9 +85,7 @@ const LoginScreen = () => {
             name={'password'}
             placeholder={'••••••••••••'}
           />
-          <Link href={'/(public)/forgotPassword'} style={styles.forgotLabel}>
-            forgot password?
-          </Link>
+          <ForgotPasswordLink />
         </View>
         <View style={styles.socialOptionsContainer}>
           <Button

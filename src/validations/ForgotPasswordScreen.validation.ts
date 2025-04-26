@@ -1,5 +1,10 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-export const schema = yup.object().shape({
-  email: yup.string().email('Please enter a valid email').required('Email is required'),
+export const schema = z.object({
+  email: z
+    .string()
+    .email({ message: 'Please enter a valid email' })
+    .min(1, { message: 'Email is required' }),
 });
+
+export type ForgotPasswordFormData = z.infer<typeof schema>;

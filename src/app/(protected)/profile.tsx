@@ -24,7 +24,6 @@ const ProfileScreen = () => {
             } catch (err) {
               console.error('error logging out', err);
               Alert.alert('Error', 'Could not log out');
-            } finally {
             }
           },
         },
@@ -99,16 +98,12 @@ const ProfileScreen = () => {
         <Image source={{ uri: user?.imageUrl }} resizeMode="cover" style={styles.image} />
         <Text style={styles.title}>{user?.firstName}</Text>
         <Text style={styles.email}>{user?.emailAddresses[0].emailAddress}</Text>
-        <TouchableOpacity
-          style={styles.btn(true)}
-          activeOpacity={0.8}
-          onPress={navigateToPrivacyPolicy}
-        >
-          <Text style={styles.btnText(true)}>Privacy Policy</Text>
+        <TouchableOpacity activeOpacity={0.7} onPress={navigateToPrivacyPolicy}>
+          <Text style={styles.privacyPolicyText}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.height} />
-      <View>
+
+      <View style={styles.height}>
         <TouchableOpacity style={styles.btn(true)} activeOpacity={0.8} onPress={handleLogOut}>
           <Text style={styles.btnText(true)}>Log out</Text>
         </TouchableOpacity>
@@ -120,7 +115,9 @@ const ProfileScreen = () => {
           disabled={isDeleting}
         >
           {isDeleting ? (
-            <ActivityIndicator size="small" color="#fff" />
+            <View style={{ height: 20, justifyContent: 'center' }}>
+              <ActivityIndicator size="small" color="#fff" />
+            </View>
           ) : (
             <Text style={styles.btnText(false)}>Delete account</Text>
           )}

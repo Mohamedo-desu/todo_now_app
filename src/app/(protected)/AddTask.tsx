@@ -1,9 +1,9 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
 import React, { useRef, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, Resolver, useForm } from 'react-hook-form';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -20,7 +20,7 @@ import { api } from '../../../convex/_generated/api';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { styles } from '@/styles/AddTaskScreen.styles';
-import { schema } from '@/validations/AddTaskScreen.validation';
+import { AddTaskFormData, schema } from '@/validations/AddTaskScreen.validation';
 
 const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
   fillColor: theme.Colors.primary,
@@ -31,20 +31,14 @@ const TextInputUnistyles = withUnistyles(TextInput, theme => ({
   cursorColor: theme.Colors.secondary,
 }));
 
-type FormValues = {
-  taskTitle: string;
-  taskDescription: string;
-  taskDate: Date;
-};
-
 const AddTask = () => {
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<FormValues>({
-    resolver: yupResolver(schema),
+  } = useForm<AddTaskFormData>({
+    resolver: zodResolver(schema) as Resolver<AddTaskFormData>,
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
@@ -62,7 +56,7 @@ const AddTask = () => {
 
   const addTask = useMutation(api.tasks.addTask);
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: AddTaskFormData) => {
     try {
       const taskId = await addTask({
         title: data.taskTitle,
@@ -72,12 +66,12 @@ const AddTask = () => {
         dueDate: data.taskDate.getTime(),
       });
       if (taskId) {
-        reset(); //
         if (priority) {
           setPriority(false);
           bouncyCheckboxRef.current?.onCheckboxPress();
         }
         Alert.alert('Success', 'Task added successfully!');
+        reset();
       }
     } catch (error) {
       console.log('Error adding task:', error);

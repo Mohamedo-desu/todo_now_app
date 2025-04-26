@@ -1,5 +1,5 @@
 import { useSignUp } from '@clerk/clerk-expo';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
 import { styles } from '@/styles/VerificationModal.styles';
-import { schema } from '@/validations/VerificationModal.validation';
+import { schema, VerificationFormData } from '@/validations/VerificationModal.validation';
 
 const VerificationModal = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -16,15 +16,15 @@ const VerificationModal = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<VerificationFormData>({
+    resolver: zodResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onBlur',
-    defaultValues: { code: 0 },
+    defaultValues: { code: '' },
     shouldFocusError: true,
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: VerificationFormData) => {
     try {
       const { code } = data;
       if (!isLoaded) return;

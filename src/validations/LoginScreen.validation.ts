@@ -1,6 +1,8 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-export const schema = yup.object().shape({
-  email: yup.string().required('Email is required'),
-  password: yup.string().required('Password is required'),
+export const schema = z.object({
+  email: z.string().min(1, { message: 'Email is required' }),
+  password: z.string().min(1, { message: 'Password is required' }),
 });
+
+export type LoginFormData = z.infer<typeof schema>;

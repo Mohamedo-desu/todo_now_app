@@ -1,24 +1,27 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-export const schema = yup.object().shape({
-  newPassword: yup
-    .string()
-    .min(8, 'New password must be at least 8 characters')
-    .matches(
-      /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/,
-      'New password must contain uppercase, lowercase, number, and special character'
-    )
-    .required('New password is required'),
+// Define validation limits as constants
+const PASSWORD_MIN_LENGTH = 8;
 
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('newPassword')], 'Passwords must match')
-    .required('Confirm password is required'),
+export const schema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(PASSWORD_MIN_LENGTH, {
+        message: `New password must be at least ${PASSWORD_MIN_LENGTH} characters`,
+      })
+      .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/, {
+        message: 'New password must contain uppercase, lowercase, number, and special character',
+      })
+      .min(1, { message: 'New password is required' }),
 
-  code: yup
-    .number()
-    .typeError('Code must be a number')
-    .integer('Code must be an integer')
-    .positive('Code must be a positive number')
-    .required('Code is required'),
-});
+    confirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
+
+    code: z.string().min(1, { message: 'Code is required' }),
+  })
+  .refine(data => data.newPassword === data.confirmPassword, {
+    message: 'Passwords must match',
+    path: ['confirmPassword'],
+  });
+
+export type ResetPasswordFormData = z.infer<typeof schema>;

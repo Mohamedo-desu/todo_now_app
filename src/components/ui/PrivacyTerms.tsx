@@ -1,9 +1,9 @@
-import { Fonts } from '@/constants/Fonts';
 import * as Application from 'expo-application';
 import { router } from 'expo-router';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
+import { Fonts } from '@/constants/Fonts';
 
 const PrivacyTerms = () => {
   const openPrivacyPolicy = () => {
@@ -29,7 +29,7 @@ const PrivacyTerms = () => {
 
 export default PrivacyTerms;
 
-const styles = StyleSheet.create((theme, rt) => ({
+const styles = StyleSheet.create(theme => ({
   footer: {
     alignSelf: 'center',
     width: '100%',

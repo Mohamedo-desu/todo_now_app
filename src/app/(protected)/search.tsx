@@ -10,6 +10,10 @@ import Loader from '@/components/common/Loader';
 import RenderTaskCard from '@/components/common/RenderTaskCard';
 import { styles } from '@/styles/SearchScreen.styles';
 import { IconProps } from '@/types/AuthHeader.types';
+import { TaskCardProps } from '@/types/TaskCard.types';
+
+// Define a type that matches what the TaskCard component expects
+type Task = TaskCardProps['item'];
 
 const TextInputUnistyles = withUnistyles(TextInput, theme => ({
   placeholderTextColor: theme.Colors.gray[400],
@@ -22,9 +26,12 @@ const Icon: FC<IconProps> = ({ onPress }) => (
   </TouchableOpacity>
 );
 
-export const debounce = (func: (...args: any[]) => void, delay: number) => {
-  let timeoutId: NodeJS.Timeout;
-  return (...args: any[]) => {
+export const debounce = <T extends (...args: unknown[]) => void>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return (...args: Parameters<T>) => {
     if (timeoutId) clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
   };
@@ -34,7 +41,7 @@ const SearchScreen = () => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const convex = useConvex();
 
@@ -50,7 +57,17 @@ const SearchScreen = () => {
     try {
       const res = await convex.query(api.tasks.searchTask, { taskTitle: trimmed });
 
-      setTasks(res);
+      // Convert the Convex document to the format expected by TaskCard
+      const formattedTasks = res.map(task => ({
+        _id: task._id,
+        title: task.title,
+        description: task.description,
+        dueDate: new Date(task.dueDate),
+        status: task.status,
+        priority: task.priority,
+      }));
+
+      setTasks(formattedTasks);
     } catch (e) {
       console.error('Search failed: ', e);
     } finally {

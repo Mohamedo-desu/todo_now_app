@@ -1,6 +1,3 @@
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/components/TaskCard.styles';
-import { TaskCardProps } from '@/types/TaskCard.types';
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
 import React, { FC, useEffect, useState } from 'react';
@@ -10,11 +7,22 @@ import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/components/TaskCard.styles';
+import { TaskCardProps } from '@/types/TaskCard.types';
 
 const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
   fillColor: theme.Colors.success,
   unFillColor: 'transparent',
 }));
+
+// Capitalize words
+export const capitalizeWords = (str: string) => {
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/(^|\s)\S/g, char => char.toUpperCase());
+};
 
 const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
   const formattedDate = format(new Date(item.dueDate), 'hh:mm a dd MMMM, yyyy');
@@ -127,7 +135,7 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
           />
         ) : (
           <Text numberOfLines={1} style={styles.title}>
-            {item.title}
+            {capitalizeWords(item.title)}
           </Text>
         )}
         <View style={styles.actions}>

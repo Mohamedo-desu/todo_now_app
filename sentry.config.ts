@@ -8,7 +8,6 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 
 const sentryConfig = {
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-  //debug: process.env.NODE_ENV === "development",
   enableAutoSessionTracking: true,
   attachStacktrace: true,
   attachScreenshot: true,
@@ -30,22 +29,6 @@ const sentryConfig = {
   ],
   environment: process.env.NODE_ENV || "development",
   release: process.env.EXPO_PUBLIC_APP_VERSION || "1.0.0",
-  dist: process.env.EXPO_PUBLIC_APP_BUILD || "1",
-  beforeSend(event) {
-    if (event.request?.data) {
-      delete event.request.data;
-    }
-    return event;
-  },
-  beforeBreadcrumb(breadcrumb) {
-    if (breadcrumb.data?.url) {
-      breadcrumb.data.url = breadcrumb.data.url.replace(
-        /token=[^&]+/,
-        "token=[REDACTED]"
-      );
-    }
-    return breadcrumb;
-  },
 };
 
 export default sentryConfig;

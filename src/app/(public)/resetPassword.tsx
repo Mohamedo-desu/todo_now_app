@@ -1,5 +1,5 @@
 import { useSignIn } from '@clerk/clerk-expo';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
 import { styles } from '@/styles/ResetPasswordScreen.styles';
-import { schema } from '@/validations/ResetPasswordScreen.validation';
+import { ResetPasswordFormData, schema } from '@/validations/ResetPasswordScreen.validation';
 
 const ResetPasswordScreen = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -16,19 +16,19 @@ const ResetPasswordScreen = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
       newPassword: '',
       confirmPassword: '',
-      code: 0,
+      code: '',
     },
     shouldFocusError: true,
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ResetPasswordFormData) => {
     try {
       if (!isLoaded) {
         return null;

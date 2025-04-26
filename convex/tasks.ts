@@ -143,10 +143,12 @@ export const addTask = mutation({
 
     const { title, description, status, priority, dueDate } = args;
 
+    const normalizedTitle = title.toLowerCase().trim();
+
     try {
       const taskId = await db.insert('tasks', {
         userId: user._id,
-        title,
+        title: normalizedTitle,
         description,
         status,
         priority,

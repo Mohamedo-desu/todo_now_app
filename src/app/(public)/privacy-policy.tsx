@@ -1,7 +1,7 @@
-import PrivacyPolicyContent from '@/components/ui/PrivacyPolicyContent';
-import { Fonts } from '@/constants/Fonts';
 import { Stack } from 'expo-router';
 import React from 'react';
+import PrivacyPolicyContent from '@/components/ui/PrivacyPolicyContent';
+import { Fonts } from '@/constants/Fonts';
 
 const PrivacyPolicyScreen = () => {
   return (

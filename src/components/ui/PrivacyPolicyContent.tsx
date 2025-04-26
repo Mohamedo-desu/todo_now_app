@@ -1,7 +1,7 @@
-import { Fonts } from '@/constants/Fonts';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
+import { Fonts } from '@/constants/Fonts';
 
 const PrivacyPolicyContent = () => {
   return (
@@ -11,9 +11,10 @@ const PrivacyPolicyContent = () => {
 
         <Text style={styles.sectionTitle}>1. Introduction</Text>
         <Text style={styles.paragraph}>
-          Welcome to Todo Now App ("we," "our," or "us"). Your privacy is important to us. This
-          Privacy Policy explains how we collect, use, disclose, and safeguard your information when
-          you use our mobile application Todo Now App (the "App").
+          Welcome to Todo Now App (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). Your privacy
+          is important to us. This Privacy Policy explains how we collect, use, disclose, and
+          safeguard your information when you use our mobile application Todo Now App (the
+          &quot;App&quot;).
         </Text>
         <Text style={styles.paragraph}>
           Please read this Privacy Policy carefully. If you do not agree with the terms of this
@@ -138,7 +139,7 @@ const PrivacyPolicyContent = () => {
         <Text style={styles.bulletPoint}>• The right to data portability</Text>
         <Text style={styles.bulletPoint}>• The right to withdraw consent</Text>
 
-        <Text style={styles.sectionTitle}>8. Children's Privacy</Text>
+        <Text style={styles.sectionTitle}>8. Children&apos;s Privacy</Text>
         <Text style={styles.paragraph}>
           Our App is not intended for children under the age of 13. We do not knowingly collect
           personally identifiable information from children under 13. If you are a parent or
@@ -149,8 +150,8 @@ const PrivacyPolicyContent = () => {
         <Text style={styles.sectionTitle}>9. Changes to This Privacy Policy</Text>
         <Text style={styles.paragraph}>
           We may update our Privacy Policy from time to time. We will notify you of any changes by
-          posting the new Privacy Policy on this page and updating the "Effective Date" at the top
-          of this Privacy Policy.
+          posting the new Privacy Policy on this page and updating the &quot;Effective Date&quot; at
+          the top of this Privacy Policy.
         </Text>
 
         <Text style={styles.sectionTitle}>10. Contact Us</Text>
@@ -170,7 +171,7 @@ const PrivacyPolicyContent = () => {
 
 export default PrivacyPolicyContent;
 
-const styles = StyleSheet.create((theme, rt) => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.Colors.background,
@@ -180,7 +181,7 @@ const styles = StyleSheet.create((theme, rt) => ({
   },
   contentContainer: {
     padding: 15,
-    paddingBottom: rt.insets.bottom + 30,
+    paddingBottom: 30,
   },
   title: {
     fontSize: 20,

@@ -1,10 +1,10 @@
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/components/GoogleButton.styles';
 import { useSSO } from '@clerk/clerk-expo';
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Image, TouchableOpacity } from 'react-native';
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/components/GoogleButton.styles';
 
 const GoogleButton = () => {
   const { startSSOFlow } = useSSO();
@@ -41,7 +41,7 @@ const GoogleButton = () => {
       disabled={isLoading}
     >
       {isLoading ? (
-        <ActivityIndicator size="small" color={Colors.google} />
+        <ActivityIndicator size="small" color={Colors.white} />
       ) : (
         <Image
           source={require('@/assets/images/google.png')}

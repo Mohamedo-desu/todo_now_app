@@ -1,5 +1,5 @@
 import { useSignIn } from '@clerk/clerk-expo';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
 import { styles } from '@/styles/ForgotPasswordScreen.styles';
-import { schema } from '@/validations/ForgotPasswordScreen.validation';
+import { ForgotPasswordFormData, schema } from '@/validations/ForgotPasswordScreen.validation';
 
 const ForgotPassword = () => {
   const { isLoaded, signIn } = useSignIn();
@@ -17,8 +17,8 @@ const ForgotPassword = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     shouldFocusError: true,
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ForgotPasswordFormData) => {
     try {
       if (!isLoaded) return;
       const { email } = data;
