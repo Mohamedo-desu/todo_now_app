@@ -1,6 +1,6 @@
+import { AnimatedLegendList } from '@legendapp/list/reanimated';
 import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
 import React from 'react';
-import Animated, { LinearTransition } from 'react-native-reanimated';
 import { api } from '../../../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
@@ -20,7 +20,7 @@ const PendingTasks = () => {
   );
 
   return (
-    <Animated.FlatList
+    <AnimatedLegendList
       data={tasks}
       renderItem={RenderTaskCard}
       keyExtractor={item => item._id}
@@ -30,10 +30,6 @@ const PendingTasks = () => {
       showsVerticalScrollIndicator={false}
       onEndReachedThreshold={0.5}
       onEndReached={() => loadMore(10)}
-      removeClippedSubviews={true}
-      windowSize={5}
-      maxToRenderPerBatch={10}
-      updateCellsBatchingPeriod={50}
       ListEmptyComponent={
         isLoading ? <Loader size="small" /> : <Empty text="No pending tasks found" />
       }
@@ -44,7 +40,6 @@ const PendingTasks = () => {
           <Empty text="You don't have any more pending tasks" />
         ) : null
       }
-      itemLayoutAnimation={LinearTransition}
     />
   );
 };

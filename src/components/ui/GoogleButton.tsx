@@ -41,7 +41,7 @@ const GoogleButton = () => {
       disabled={isLoading}
     >
       {isLoading ? (
-        <ActivityIndicator size="small" color={Colors.white} />
+        <ActivityIndicator size="small" color={Colors.google} />
       ) : (
         <Image
           source={require('@/assets/images/google.png')}

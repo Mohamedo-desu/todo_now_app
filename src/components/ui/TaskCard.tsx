@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import React, { FC, memo, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
@@ -24,7 +24,7 @@ export const capitalizeWords = (str: string) => {
     .replace(/(^|\s)\S/g, char => char.toUpperCase());
 };
 
-const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
+const TaskCard: FC<TaskCardProps> = ({ item }) => {
   const formattedDate = format(new Date(item.dueDate), 'hh:mm a dd MMMM, yyyy');
   const [completed, setCompleted] = useState(item.status === 'done');
   const [priorityOn, setPriorityOn] = useState(item.priority);
@@ -123,7 +123,7 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
   };
 
   return (
-    <Animated.View style={styles.container} entering={ZoomIn.delay(index * 100)} exiting={ZoomOut}>
+    <Animated.View style={styles.container}>
       <View style={styles.header}>
         {isEditing ? (
           <TextInput

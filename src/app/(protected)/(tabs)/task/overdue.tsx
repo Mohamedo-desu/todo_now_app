@@ -1,6 +1,6 @@
+import { AnimatedLegendList } from '@legendapp/list/reanimated';
 import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
 import React from 'react';
-import Animated, { LinearTransition } from 'react-native-reanimated';
 import { api } from '../../../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
@@ -20,7 +20,7 @@ const OverdueTasks = () => {
   );
 
   return (
-    <Animated.FlatList
+    <AnimatedLegendList
       data={tasks}
       renderItem={RenderTaskCard}
       keyExtractor={item => item._id}
@@ -40,7 +40,6 @@ const OverdueTasks = () => {
           <Empty text="You don't have any more overdue tasks" />
         ) : null
       }
-      itemLayoutAnimation={LinearTransition}
     />
   );
 };

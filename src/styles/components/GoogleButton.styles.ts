@@ -7,7 +7,7 @@ export const styles = StyleSheet.create(theme => ({
   },
   gButton: {
     borderWidth: 1,
-    backgroundColor: theme.Colors.google,
+    backgroundColor: theme.Colors.typography,
     borderColor: theme.Colors.gray[200],
     borderRadius: 5,
     padding: 10,

@@ -2,7 +2,8 @@ import { useSignIn } from '@clerk/clerk-expo';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { Keyboard, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
@@ -33,6 +34,8 @@ const ResetPasswordScreen = () => {
       if (!isLoaded) {
         return null;
       }
+      Keyboard.dismiss();
+
       const { newPassword, code } = data;
 
       const result = await signIn?.attemptFirstFactor({
@@ -52,52 +55,48 @@ const ResetPasswordScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <AuthHeader
-          title="Create new password"
-          description="Create a strong password to secure your account"
+      <AuthHeader
+        title="Create new password"
+        description="Create a strong password to secure your account"
+      />
+      <View style={styles.formContainer}>
+        <Input
+          label="Code"
+          control={control}
+          errors={errors.code}
+          name={'code'}
+          placeholder={'Enter your reset code'}
         />
-        <View style={styles.formContainer}>
-          <Input
-            label="Code"
-            control={control}
-            errors={errors.code}
-            name={'code'}
-            placeholder={'Enter your reset code'}
-          />
-          <Input
-            label="New Password"
-            control={control}
-            errors={errors.newPassword}
-            name={'newPassword'}
-            placeholder={'••••••••••••'}
-          />
-          <Input
-            label="Confirm Password"
-            control={control}
-            errors={errors.confirmPassword}
-            name={'confirmPassword'}
-            placeholder={'••••••••••••'}
-          />
-        </View>
-        <View style={styles.height} />
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          isSubmitting={isSubmitting}
-          isValid={isValid}
-          label={'Create Password'}
+        <Input
+          label="New Password"
+          control={control}
+          errors={errors.newPassword}
+          name={'newPassword'}
+          placeholder={'••••••••••••'}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <Input
+          label="Confirm Password"
+          control={control}
+          errors={errors.confirmPassword}
+          name={'confirmPassword'}
+          placeholder={'••••••••••••'}
+        />
+      </View>
+      <View style={styles.height} />
+      <Button
+        onPress={handleSubmit(onSubmit)}
+        isSubmitting={isSubmitting}
+        isValid={isValid}
+        label={'Create Password'}
+      />
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -2,7 +2,8 @@ import { useSignUp } from '@clerk/clerk-expo';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
+import { Alert, Keyboard, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
@@ -29,6 +30,8 @@ const VerificationModal = () => {
       const { code } = data;
       if (!isLoaded) return;
 
+      Keyboard.dismiss();
+
       const signUpAttempt = await signUp.attemptEmailAddressVerification({
         code,
       });
@@ -44,10 +47,12 @@ const VerificationModal = () => {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
     >
       <AuthHeader />
       <View style={styles.formContainer}>
@@ -68,7 +73,7 @@ const VerificationModal = () => {
           />
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 

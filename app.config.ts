@@ -113,7 +113,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       "./plugins/custom-android-styles.js"
     ],
     experiments: {
-      reactCompiler: false,
+      reactCompiler: true,
       typedRoutes: true,
       reactCanary: true,
       buildCacheProvider: "eas",

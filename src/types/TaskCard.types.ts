@@ -7,5 +7,4 @@ export interface TaskCardProps {
     status: 'done' | 'in-progress';
     priority: boolean;
   };
-  index: number;
 }

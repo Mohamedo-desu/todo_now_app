@@ -6,6 +6,7 @@ import tsParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
+import reactCompilerPlugin from 'eslint-plugin-react-compiler';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactNativePlugin from 'eslint-plugin-react-native';
 
@@ -57,6 +58,7 @@ export default [
       'react-native': reactNativePlugin,
       import: importPlugin,
       prettier: prettierPlugin,
+      'react-compiler': reactCompilerPlugin,
     },
     rules: {
       // TypeScript-specific rules      
@@ -80,6 +82,8 @@ export default [
 
       // Prettier integration
       'prettier/prettier': 'error',
+
+      'react-compiler/react-compiler': 'error',
 
     },
   },

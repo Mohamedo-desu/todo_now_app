@@ -1,11 +1,10 @@
 import { useUser } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
+import { AnimatedLegendList } from '@legendapp/list/reanimated';
 import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
 import { router } from 'expo-router';
 import React, { FC } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
-
 import { api } from '../../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
@@ -55,7 +54,7 @@ const Home = () => {
         description="What do you want to do today?"
       />
 
-      <Animated.FlatList
+      <AnimatedLegendList
         data={tasks}
         renderItem={RenderTaskCard}
         keyExtractor={item => item._id}
@@ -65,10 +64,6 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.5}
         onEndReached={() => loadMore(10)}
-        removeClippedSubviews={true}
-        windowSize={5}
-        maxToRenderPerBatch={10}
-        updateCellsBatchingPeriod={50}
         ListEmptyComponent={
           isLoading ? <Loader size="small" /> : <Empty text="Start creating tasks" />
         }
@@ -79,7 +74,6 @@ const Home = () => {
             <Empty text="No more tasks" />
           ) : null
         }
-        itemLayoutAnimation={LinearTransition}
       />
     </View>
   );

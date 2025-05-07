@@ -5,6 +5,10 @@ export const styles = StyleSheet.create((theme, rt) => ({
   container: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+
+  scrollContent: {
+    flexGrow: 1,
     paddingTop: rt.insets.top + 10,
     paddingBottom: rt.insets.bottom + 10,
     paddingHorizontal: 15,

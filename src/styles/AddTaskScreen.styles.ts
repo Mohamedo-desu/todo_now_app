@@ -1,17 +1,18 @@
 import { StyleSheet } from 'react-native-unistyles';
 import { Fonts } from '@/constants/Fonts';
 
-export const styles = StyleSheet.create(theme => ({
+export const styles = StyleSheet.create((theme, rt) => ({
   container: {
     flex: 1,
     backgroundColor: theme.Colors.background,
   },
   scrollContent: {
     flexGrow: 1,
-    paddingTop: 20,
+    paddingBottom: rt.insets.bottom + 10,
     paddingHorizontal: 15,
   },
   formContainer: {
+    marginVertical: 25,
     gap: 20,
   },
   inputLabel: {

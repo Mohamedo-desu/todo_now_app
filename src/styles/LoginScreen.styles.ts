@@ -25,6 +25,7 @@ export const styles = StyleSheet.create((theme, rt) => ({
   },
   socialOptionsContainer: {
     flex: 1,
+    gap: 20,
   },
   socialOptions: {
     alignItems: 'center',

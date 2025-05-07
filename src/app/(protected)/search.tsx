@@ -2,7 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useConvex } from 'convex/react';
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import Animated from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
@@ -36,6 +37,8 @@ export const debounce = <T extends (...args: unknown[]) => void>(
     timeoutId = setTimeout(() => func(...args), delay);
   };
 };
+
+const AnimatedFlatList = Animated.createAnimatedComponent(KeyboardAwareFlatList);
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('');
@@ -78,37 +81,34 @@ const SearchScreen = () => {
   const debouncedHandleSearch = useMemo(() => debounce(handleSearch, 500), [handleSearch]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInputUnistyles
-          style={styles.searchInput}
-          placeholder="Search for your tasks"
-          value={query}
-          onChangeText={text => {
-            setQuery(text);
-            debouncedHandleSearch();
-          }}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-        <Icon onPress={handleSearch} />
-      </View>
-      {loading ? (
-        <Loader size="small" />
-      ) : (
-        <Animated.FlatList
-          data={tasks}
-          renderItem={RenderTaskCard}
-          keyExtractor={item => item._id}
-          style={styles.flatList}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.contentContainerStyle}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={<Empty text="No results found" />}
-          itemLayoutAnimation={LinearTransition}
-        />
-      )}
-    </View>
+    <AnimatedFlatList
+      data={tasks}
+      renderItem={RenderTaskCard}
+      keyExtractor={item => item._id}
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
+      style={styles.container}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      ListHeaderComponent={
+        <View style={styles.searchContainer}>
+          <TextInputUnistyles
+            style={styles.searchInput}
+            placeholder="Search for your tasks"
+            value={query}
+            onChangeText={text => {
+              setQuery(text);
+              debouncedHandleSearch();
+            }}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <Icon onPress={handleSearch} />
+        </View>
+      }
+      ListEmptyComponent={loading ? <Loader size="small" /> : <Empty text="no results found" />}
+    />
   );
 };
 

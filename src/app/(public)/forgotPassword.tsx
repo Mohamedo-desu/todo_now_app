@@ -3,7 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, KeyboardAvoidingView, Platform, View } from 'react-native';
+import { Alert, Keyboard, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
@@ -30,6 +31,8 @@ const ForgotPassword = () => {
   const onSubmit = async (data: ForgotPasswordFormData) => {
     try {
       if (!isLoaded) return;
+      Keyboard.dismiss();
+
       const { email } = data;
       await signIn.create({
         strategy: 'reset_password_email_code',
@@ -43,10 +46,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
     >
       <AuthHeader
         title="Reset Password"
@@ -68,7 +73,7 @@ const ForgotPassword = () => {
         isValid={isValid}
         label={'Reset Password'}
       />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 

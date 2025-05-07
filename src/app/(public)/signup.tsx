@@ -3,7 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, Keyboard, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
@@ -30,6 +31,9 @@ export default function SignUpScreen() {
   const onSubmit = async (data: SignUpFormData) => {
     try {
       if (!isLoaded) return;
+
+      Keyboard.dismiss();
+
       const { username, email, password } = data;
 
       await signUp.create({
@@ -50,41 +54,39 @@ export default function SignUpScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <AuthHeader title="Create your new account" />
+      <AuthHeader title="Create your new account" />
 
-        <View style={styles.formContainer}>
-          <Input
-            label="Username"
-            control={control}
-            errors={errors.username}
-            name={'username'}
-            placeholder={'johndoe'}
-          />
-          <Input
-            label="Email"
-            control={control}
-            errors={errors.email}
-            name={'email'}
-            placeholder={'johndoe@gmail.com'}
-          />
-          <Input
-            label="Password"
-            control={control}
-            errors={errors.password}
-            name={'password'}
-            placeholder={'••••••••••••'}
-          />
-        </View>
+      <View style={styles.formContainer}>
+        <Input
+          label="Username"
+          control={control}
+          errors={errors.username}
+          name={'username'}
+          placeholder={'johndoe'}
+        />
+        <Input
+          label="Email"
+          control={control}
+          errors={errors.email}
+          name={'email'}
+          placeholder={'johndoe@gmail.com'}
+        />
+        <Input
+          label="Password"
+          control={control}
+          errors={errors.password}
+          name={'password'}
+          placeholder={'••••••••••••'}
+        />
+      </View>
+      <View style={styles.socialOptionsContainer}>
         <Button
           onPress={handleSubmit(onSubmit)}
           isSubmitting={isSubmitting}
@@ -101,8 +103,9 @@ export default function SignUpScreen() {
             Login
           </Text>
         </View>
-        <PrivacyTerms />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </View>
+
+      <PrivacyTerms />
+    </KeyboardAwareScrollView>
   );
 }

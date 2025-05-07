@@ -3,7 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, router } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, Keyboard, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import AuthHeader from '@/components/ui/AuthHeader';
@@ -11,7 +12,6 @@ import GoogleButton from '@/components/ui/GoogleButton';
 import PrivacyTerms from '@/components/ui/PrivacyTerms';
 import { styles } from '@/styles/LoginScreen.styles';
 import { LoginFormData, schema } from '@/validations/LoginScreen.validation';
-
 // Custom link component to wrap the text
 const ForgotPasswordLink = () => (
   <Link href={'/(public)/forgotPassword'} style={styles.forgotLabel}>
@@ -40,6 +40,9 @@ const LoginScreen = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       if (!isLoaded) return;
+
+      Keyboard.dismiss();
+
       const { email, password } = data;
 
       const signInAttempt = await signIn.create({
@@ -59,56 +62,52 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      contentContainerStyle={styles.scrollContent}
+      keyboardShouldPersistTaps="handled"
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <AuthHeader title="Login to your account" />
-        <View style={styles.formContainer}>
-          <Input
-            label="Email"
-            control={control}
-            errors={errors.email}
-            name={'email'}
-            placeholder={'johndoe@gmail.com'}
-          />
-          <Input
-            label="Password"
-            control={control}
-            errors={errors.password}
-            name={'password'}
-            placeholder={'••••••••••••'}
-          />
-          <ForgotPasswordLink />
+      <AuthHeader title="Login to your account" />
+      <View style={styles.formContainer}>
+        <Input
+          label="Email"
+          control={control}
+          errors={errors.email}
+          name={'email'}
+          placeholder={'johndoe@gmail.com'}
+        />
+        <Input
+          label="Password"
+          control={control}
+          errors={errors.password}
+          name={'password'}
+          placeholder={'••••••••••••'}
+        />
+        <ForgotPasswordLink />
+      </View>
+      <View style={styles.socialOptionsContainer}>
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          isSubmitting={isSubmitting}
+          isValid={isValid}
+          label={'Login'}
+        />
+        <View style={styles.socialOptions}>
+          <Text style={styles.orText}>OR LOGIN WITH</Text>
+          <GoogleButton />
         </View>
-        <View style={styles.socialOptionsContainer}>
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            isSubmitting={isSubmitting}
-            isValid={isValid}
-            label={'Login'}
-          />
-          <View style={styles.socialOptions}>
-            <Text style={styles.orText}>OR LOGIN WITH</Text>
-            <GoogleButton />
-          </View>
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Don&apos;t have an account?</Text>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Don&apos;t have an account?</Text>
 
-            <Text style={styles.footerText2} onPress={() => router.navigate('/(public)/signup')}>
-              Sign up
-            </Text>
-          </View>
+          <Text style={styles.footerText2} onPress={() => router.navigate('/(public)/signup')}>
+            Sign up
+          </Text>
         </View>
-        <PrivacyTerms />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </View>
+      <PrivacyTerms />
+    </KeyboardAwareScrollView>
   );
 };
 
