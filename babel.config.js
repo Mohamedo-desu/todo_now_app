@@ -8,8 +8,6 @@ module.exports = function (api) {
         {
           unstable_transformImportMeta: true,
           'react-compiler': {
-            compilationMode: 'strict',
-            panicThreshold: 'all_errors',
             sources: filename => {
               // Match file names to include in the React Compiler.
               return filename.includes('src/');
