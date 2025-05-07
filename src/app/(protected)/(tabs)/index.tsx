@@ -6,13 +6,13 @@ import React, { FC } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 
-import { api } from '../../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
 import RenderTaskCard from '@/components/common/RenderTaskCard';
 import AuthHeader from '@/components/ui/AuthHeader';
 import { styles } from '@/styles/HomeScreen.styles';
 import { IconWithNameProps } from '@/types/AuthHeader.types';
+import { api } from '../../../../convex/_generated/api';
 
 const Icon: FC<IconWithNameProps> = ({ onPress, name }) => (
   <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.iconBtn} hitSlop={10}>
@@ -65,6 +65,10 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.5}
         onEndReached={() => loadMore(10)}
+        removeClippedSubviews={true}
+        windowSize={5}
+        maxToRenderPerBatch={10}
+        updateCellsBatchingPeriod={50}
         ListEmptyComponent={
           isLoading ? <Loader size="small" /> : <Empty text="Start creating tasks" />
         }

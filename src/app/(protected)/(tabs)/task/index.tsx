@@ -1,11 +1,11 @@
-import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
-import React from 'react';
-import Animated, { LinearTransition } from 'react-native-reanimated';
-import { api } from '../../../../../convex/_generated/api';
 import Empty from '@/components/common/Empty';
 import Loader from '@/components/common/Loader';
 import RenderTaskCard from '@/components/common/RenderTaskCard';
 import { styles } from '@/styles/common/TaskTabs.styles';
+import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
+import React from 'react';
+import Animated, { LinearTransition } from 'react-native-reanimated';
+import { api } from '../../../../../convex/_generated/api';
 
 const PendingTasks = () => {
   const {
@@ -30,6 +30,10 @@ const PendingTasks = () => {
       showsVerticalScrollIndicator={false}
       onEndReachedThreshold={0.5}
       onEndReached={() => loadMore(10)}
+      removeClippedSubviews={true}
+      windowSize={5}
+      maxToRenderPerBatch={10}
+      updateCellsBatchingPeriod={50}
       ListEmptyComponent={
         isLoading ? <Loader size="small" /> : <Empty text="No pending tasks found" />
       }

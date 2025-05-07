@@ -1,15 +1,15 @@
+import { Colors } from '@/constants/Colors';
+import { styles } from '@/styles/components/TaskCard.styles';
+import { TaskCardProps } from '@/types/TaskCard.types';
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { withUnistyles } from 'react-native-unistyles';
 import { api } from '../../../convex/_generated/api';
 import { Id } from '../../../convex/_generated/dataModel';
-import { Colors } from '@/constants/Colors';
-import { styles } from '@/styles/components/TaskCard.styles';
-import { TaskCardProps } from '@/types/TaskCard.types';
 
 const CheckBoxUnistyle = withUnistyles(BouncyCheckbox, theme => ({
   fillColor: theme.Colors.success,
@@ -213,4 +213,4 @@ const TaskCard: FC<TaskCardProps> = ({ item, index }) => {
   );
 };
 
-export default TaskCard;
+export default memo(TaskCard);
