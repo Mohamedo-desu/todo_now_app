@@ -1,7 +1,7 @@
 {
   "name": "todo_now_app",
   "main": "index.ts",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "publish:android": "eas build --platform android --profile preview",
     "update:app": "eas update --branch preview && npx sentry-expo-upload-sourcemaps dist",

@@ -1,11 +1,11 @@
-import Empty from '@/components/common/Empty';
-import Loader from '@/components/common/Loader';
-import RenderTaskCard from '@/components/common/RenderTaskCard';
-import { styles } from '@/styles/common/TaskTabs.styles';
 import { PaginatedQueryReference, usePaginatedQuery } from 'convex/react';
 import React from 'react';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { api } from '../../../../../convex/_generated/api';
+import Empty from '@/components/common/Empty';
+import Loader from '@/components/common/Loader';
+import RenderTaskCard from '@/components/common/RenderTaskCard';
+import { styles } from '@/styles/common/TaskTabs.styles';
 
 const CompletedTasks = () => {
   const {

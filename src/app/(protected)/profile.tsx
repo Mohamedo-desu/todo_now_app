@@ -1,10 +1,10 @@
-import { styles } from '@/styles/ProfileScreen.styles';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useAction } from 'convex/react';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { api } from '../../../convex/_generated/api';
+import { styles } from '@/styles/ProfileScreen.styles';
 
 const ProfileScreen = () => {
   const { user } = useUser();
@@ -115,7 +115,7 @@ const ProfileScreen = () => {
           disabled={isDeleting}
         >
           {isDeleting ? (
-            <View style={{ height: 20, justifyContent: 'center' }}>
+            <View style={styles.btnLoader}>
               <ActivityIndicator size="small" color="#fff" />
             </View>
           ) : (

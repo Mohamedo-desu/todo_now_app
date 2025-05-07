@@ -1,8 +1,8 @@
-import { styles } from '@/styles/layouts/TabsLayout.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
+import { styles } from '@/styles/layouts/TabsLayout.styles';
 
 const TabsLayout = () => {
   return (

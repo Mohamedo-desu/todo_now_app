@@ -1,5 +1,5 @@
-import { Fonts } from '@/constants/Fonts';
 import { StyleSheet } from 'react-native-unistyles';
+import { Fonts } from '@/constants/Fonts';
 
 export const styles = StyleSheet.create(theme => ({
   container: {
@@ -43,6 +43,10 @@ export const styles = StyleSheet.create(theme => ({
     bottom: 50,
     width: '100%',
     gap: 10,
+  },
+  btnLoader: {
+    height: 20,
+    justifyContent: 'center',
   },
   btn: isLogin => ({
     width: '100%',
